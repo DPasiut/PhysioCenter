@@ -1,32 +1,23 @@
-package domain.entity;
+package com.example.PhysioCenter.domain.dto;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.io.Serializable;
 
-@Entity
-@Table(name = "pacjent")
-public class Patient implements Serializable {
+@Data
+@AllArgsConstructor
 
-    @Id
-    @Column(name = "id_pacjenta")
+public class PatientDto implements Serializable {
+
     private Long patientId;
-
-    @Column(name = "imie")
     private String name;
-
-    @Column(name = "nazwisko")
     private String secondName;
-
-    @Column(name = "telefon")
     private String phoneNumber;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "pesel")
     private String peselNo;
 
-    private Patient(Builder builder){
+    private PatientDto(Builder builder){
         patientId = builder.patientId;
         name = builder.name;
         secondName = builder.secondName;
@@ -35,21 +26,32 @@ public class Patient implements Serializable {
         peselNo = builder.peselNo;
     }
 
-    public Patient(){
-
+    public PatientDto(){
     }
 
-    public Long getPatientId() { return patientId; }
+    public Long getPatientId() {
+        return patientId;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getSecondName() { return secondName; }
+    public String getSecondName() {
+        return secondName;
+    }
 
-    public String getPhoneNumber() { return phoneNumber; }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String getPeselNo() { return peselNo; }
+    public String getPeselNo() {
+        return peselNo;
+    }
 
     public static final class Builder{
         private Long patientId;
@@ -91,6 +93,6 @@ public class Patient implements Serializable {
             return this;
         }
 
-        public Patient build(){return new Patient(this);}
+        public PatientDto build(){return new PatientDto(this);}
     }
 }

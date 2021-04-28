@@ -1,7 +1,7 @@
-package domain.mapper;
+package com.example.PhysioCenter.domain.mapper;
 
-import domain.dto.PatientDto;
-import domain.entity.Patient;
+import com.example.PhysioCenter.domain.dto.PatientDto;
+import com.example.PhysioCenter.domain.entity.Patient;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

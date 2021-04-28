@@ -1,17 +1,43 @@
-package domain.dto;
+package com.example.PhysioCenter.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class PatientDto implements Serializable {
+@Entity
+@Table(schema = "fizjoterapia", name = "pacjent")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
+public class Patient implements Serializable {
+
+    @Id
+//    @GeneratedValue(generator = "patient_id_sequence", strategy = GenerationType.SEQUENCE)
+//    @SequenceGenerator(name = "patient_id_sequence", sequenceName = "patient_id_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_pacjenta")
     private Long patientId;
+
+    @Column(name = "imie")
     private String name;
+
+    @Column(name = "nazwisko")
     private String secondName;
+
+    @Column(name = "telefon")
     private String phoneNumber;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "pesel")
     private String peselNo;
 
-    private PatientDto(Builder builder){
+    private Patient(Builder builder){
         patientId = builder.patientId;
         name = builder.name;
         secondName = builder.secondName;
@@ -20,32 +46,18 @@ public class PatientDto implements Serializable {
         peselNo = builder.peselNo;
     }
 
-    public PatientDto(){
-    }
 
-    public Long getPatientId() {
-        return patientId;
-    }
+    public Long getPatientId() { return patientId; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public String getSecondName() {
-        return secondName;
-    }
+    public String getSecondName() { return secondName; }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
-    public String getPeselNo() {
-        return peselNo;
-    }
+    public String getPeselNo() { return peselNo; }
 
     public static final class Builder{
         private Long patientId;
@@ -87,6 +99,6 @@ public class PatientDto implements Serializable {
             return this;
         }
 
-        public PatientDto build(){return new PatientDto(this);}
+        public Patient build(){return new Patient(this);}
     }
 }

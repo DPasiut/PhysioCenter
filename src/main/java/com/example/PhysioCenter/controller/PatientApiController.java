@@ -1,17 +1,16 @@
-package controler;
+package com.example.PhysioCenter.controller;
 
-import domain.dto.PatientDto;
-import domain.entity.Patient;
+import com.example.PhysioCenter.domain.dto.PatientDto;
+import com.example.PhysioCenter.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.PatientService;
+
 
 import java.util.List;
 
@@ -22,7 +21,6 @@ public class PatientApiController {
 
     private final PatientService patientService;
 
-    @Autowired
     public PatientApiController(PatientService patientService) {
         this.patientService = patientService;
     }
