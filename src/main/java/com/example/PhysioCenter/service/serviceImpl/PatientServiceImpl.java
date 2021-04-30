@@ -24,7 +24,6 @@ public class PatientServiceImpl implements PatientService {
         this.patientRepository = patientRepository;
     }
 
-
     @Override
     public List<PatientDto> findAll() {
         return patientRepository
@@ -32,4 +31,5 @@ public class PatientServiceImpl implements PatientService {
                 .map(Patient::dto)
                 .collect(Collectors.toList());
     }
+
 }

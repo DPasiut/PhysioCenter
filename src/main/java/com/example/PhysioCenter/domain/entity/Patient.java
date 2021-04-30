@@ -41,7 +41,7 @@ public class Patient {
         return PatientDto.builder()
                 .patientId(this.patientId)
                 .name(this.name)
-                .secondName(this.surname)
+                .surname(this.surname)
                 .phoneNumber(this.phoneNumber)
                 .email(this.email)
                 .peselNo(this.peselNo)

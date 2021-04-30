@@ -12,7 +12,7 @@ import lombok.*;
 public class PatientDto {
     private Long patientId;
     private String name;
-    private String secondName;
+    private String surname;
     private String phoneNumber;
     private String email;
     private String peselNo;
