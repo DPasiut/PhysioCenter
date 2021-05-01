@@ -1,6 +1,6 @@
 package com.example.PhysioCenter.controller;
 
-import com.example.PhysioCenter.domain.dto.PatientDto;
+import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

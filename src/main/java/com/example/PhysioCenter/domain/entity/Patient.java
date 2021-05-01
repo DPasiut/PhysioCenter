@@ -1,6 +1,6 @@
 package com.example.PhysioCenter.domain.entity;
 
-import com.example.PhysioCenter.domain.dto.PatientDto;
+import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +19,7 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //dodać sekwencję w bazie danych do primary key
     @Column(name = "id_pacjenta")
     private Long patientId;
 

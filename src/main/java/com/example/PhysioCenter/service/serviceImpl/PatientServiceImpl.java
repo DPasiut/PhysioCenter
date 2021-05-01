@@ -1,6 +1,6 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
-import com.example.PhysioCenter.domain.dto.PatientDto;
+import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.repository.PatientRepository;
 import org.slf4j.Logger;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -26,8 +27,8 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public List<PatientDto> findAll() {
-        return patientRepository
-                .findAll().stream()
+        return StreamSupport.stream(patientRepository
+                .findAll().spliterator(), false)
                 .map(Patient::dto)
                 .collect(Collectors.toList());
     }
