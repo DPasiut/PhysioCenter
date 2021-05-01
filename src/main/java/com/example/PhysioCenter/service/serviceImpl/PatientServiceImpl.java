@@ -41,16 +41,12 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientDto getPatientById(Long id){
         requireNonNull(id);
-        Optional<Patient> patient = patientRepository.findById(id);
-        if (patient.isPresent()){
-            return patient.get().dto();
-        }
-        throw new PatientNotFoundException(id);
+        return patientRepository.findOneOrThrown(id);
     }
 
     @Override
     public void updatePatient(PatientDto patient) {
-
+        requireNonNull(patient);
     }
 
     @Override

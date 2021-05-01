@@ -1,6 +1,7 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
+import com.example.PhysioCenter.domain.dto.patient.PatientNotFoundException;
 import com.example.PhysioCenter.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.List;
@@ -38,8 +40,14 @@ public class PatientApiController {
     @CrossOrigin
     @GetMapping(value = "patients/{id}")
     public ResponseEntity<PatientDto> getPatientById(@PathVariable Long id){
-        LOGGER.info("get patient by id");
+        LOGGER.info("get patient by id" + id);
 
-        return new ResponseEntity<>(patientService.getPatientById(id), HttpStatus.OK);
+        try {
+            LOGGER.info("Patient of id " + id + " found");
+            return new ResponseEntity<>(patientService.getPatientById(id), HttpStatus.OK);
+        }catch (PatientNotFoundException e){
+            LOGGER.info("No patient of id " + id + " found");
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 }
