@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -32,5 +33,13 @@ public class PatientApiController {
 
         List<PatientDto> patientDto = patientService.findAll();
         return new ResponseEntity<>(patientDto, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "patients/{id}")
+    public ResponseEntity<PatientDto> getPatientById(@PathVariable Long id){
+        LOGGER.info("get patient by id");
+
+        return new ResponseEntity<>(patientService.getPatientById(id), HttpStatus.OK);
     }
 }
