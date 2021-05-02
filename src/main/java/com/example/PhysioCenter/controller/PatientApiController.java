@@ -40,14 +40,6 @@ public class PatientApiController {
     @CrossOrigin
     @GetMapping(value = "patients/{id}")
     public ResponseEntity<PatientDto> getPatientById(@PathVariable Long id){
-        LOGGER.info("get patient by id" + id);
-
-        try {
-            LOGGER.info("Patient of id " + id + " found");
             return new ResponseEntity<>(patientService.getPatientById(id), HttpStatus.OK);
-        }catch (PatientNotFoundException e){
-            LOGGER.info("No patient of id " + id + " found");
-            throw  new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
     }
 }

@@ -4,7 +4,6 @@ import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.domain.dto.patient.PatientNotFoundException;
 import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.repository.PatientRepository;
-import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +40,14 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientDto getPatientById(Long id){
         requireNonNull(id);
-        return patientRepository.findOneOrThrown(id);
+        return findPatientById(id).get().dto();
     }
 
     @Override
-    public void updatePatient(PatientDto patient) {
-        requireNonNull(patient);
+    public void updatePatient(PatientDto patientDto) {
+        requireNonNull(patientDto);
+        Patient patient = findPatientById(patientDto.getPatientId()).get().toBuilder().build();
+        patientRepository.save(patient.toBuilder().patientId(patientDto.getPatientId()).build());
     }
 
     @Override
@@ -54,4 +55,11 @@ public class PatientServiceImpl implements PatientService {
 
     }
 
+    private Optional<Patient> findPatientById(Long id){
+        Optional<Patient> patient = patientRepository.findById(id);
+        if(patient.isPresent()){
+            return patient;
+        }
+        throw new PatientNotFoundException(id);
+    }
 }
