@@ -1,5 +1,6 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
+import com.example.PhysioCenter.domain.exceptions.AuthDataDuplicatedException;
 import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
 import com.example.PhysioCenter.domain.dto.users.UserDto;
@@ -27,11 +28,39 @@ public class UserServiceImpl implements UserService {
         this.encoder = new BCryptPasswordEncoder();
     }
 
+    private boolean isLoginUnique(String password) {
+        for (User user: userRepository.findAll()) {
+            System.out.println("COMPARE: " + password + "  ?  " + user.getPassword());
+            if (encoder.matches(password, user.getPassword())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isPasswordUnique(String login) {
+        for (User user: userRepository.findAll()) {
+            if (encoder.matches(login, user.getLogin())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean checkIfLoginAndPasswordAreUnique(String login, String password) {
+        return isLoginUnique(login) && isPasswordUnique(password);
+    }
+
     @Override
-    public UserDto createPatientUser(CreatePatientUserDto createPatientUserDto) throws PatientNotCreatedException, UserNotCreatedException {
+    public UserDto createPatientUser(CreatePatientUserDto createPatientUserDto) throws PatientNotCreatedException, UserNotCreatedException, AuthDataDuplicatedException {
         // TODO:
         // - TRANSACTIONAL QUERY (add patient + add user)
-        // - COMPARE IF LOGIN AND PASSWORD DOESN'T EXISTS
+        boolean isAuthDataUnique = checkIfLoginAndPasswordAreUnique(createPatientUserDto.getLogin(), createPatientUserDto.getPassword());
+        if (!isAuthDataUnique) {
+            throw new AuthDataDuplicatedException();
+        }
 
         Patient createdPatient = patientRepository.save(
                 new Patient().toBuilder()
@@ -49,7 +78,6 @@ public class UserServiceImpl implements UserService {
 
         String encodedLogin = encoder.encode(createPatientUserDto.getLogin());
         String encodedPassword = encoder.encode(createPatientUserDto.getPassword());
-        System.out.println("HASHED DATA: " + encodedLogin + "     " + encodedPassword);
         Long patientId = createdPatient.getPatientId();
         User createdUser = userRepository.save(
                 new User().toBuilder()
@@ -59,6 +87,7 @@ public class UserServiceImpl implements UserService {
                         .physioId(null)
                         .build()
         );
+        System.out.println("SAVED PASS   : " + encodedPassword);
 
         if (createdUser == null) {
             throw new UserNotCreatedException();
