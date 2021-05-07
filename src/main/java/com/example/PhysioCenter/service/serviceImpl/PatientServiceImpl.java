@@ -57,7 +57,6 @@ public class PatientServiceImpl implements PatientService {
                     .phoneNumber(patientDto.getPhoneNumber())
                     .surname(patientDto.getSurname())
                     .build());
-
         }
     }
 

@@ -9,7 +9,6 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 
-
 public class PatientDto {
     private Long patientId;
     private String name;

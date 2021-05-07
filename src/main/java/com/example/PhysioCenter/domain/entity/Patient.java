@@ -37,7 +37,6 @@ public class Patient {
     @Column(name = "pesel")
     private String peselNo;
 
-
     public PatientDto dto(){
         return PatientDto.builder()
                 .patientId(this.patientId)
