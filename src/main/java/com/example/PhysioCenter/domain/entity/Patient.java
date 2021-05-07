@@ -37,14 +37,15 @@ public class Patient {
     @Column(name = "pesel")
     private String peselNo;
 
-    public PatientDto dto(){
+    public PatientDto dto() {
         return PatientDto.builder()
                 .patientId(this.patientId)
                 .name(this.name)
                 .surname(this.surname)
-                .phoneNumber(this.phoneNumber)
+                .phoneNumber(this.phoneNumber.trim())
                 .email(this.email)
                 .peselNo(this.peselNo)
                 .build();
     }
+
 }

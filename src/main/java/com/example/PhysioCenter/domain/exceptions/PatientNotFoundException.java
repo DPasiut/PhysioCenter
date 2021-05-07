@@ -1,4 +1,4 @@
-package com.example.PhysioCenter.domain.dto.patient;
+package com.example.PhysioCenter.domain.exceptions;
 
 public class PatientNotFoundException extends RuntimeException {
 

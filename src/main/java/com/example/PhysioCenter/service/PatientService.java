@@ -12,4 +12,5 @@ public interface PatientService {
     void deletePatientById(Long id);
     Optional<Patient> findPatientById(Long id);
     Patient addPatient(Patient patient);
+    boolean deletePatientById(Long id);
 }
