@@ -1,7 +1,12 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
+import com.example.PhysioCenter.domain.dto.patient.PatientNotCreated;
+import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
+import com.example.PhysioCenter.domain.dto.users.UserDto;
+import com.example.PhysioCenter.domain.dto.users.UserNotCreated;
 import com.example.PhysioCenter.service.PatientService;
+import com.example.PhysioCenter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,9 +23,11 @@ public class PatientApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientApiController.class);
 
     private final PatientService patientService;
+    private final UserService userService;
 
-    public PatientApiController(PatientService patientService) {
+    public PatientApiController(PatientService patientService, UserService userService) {
         this.patientService = patientService;
+        this.userService = userService;
     }
 
     @CrossOrigin
@@ -43,5 +50,15 @@ public class PatientApiController {
     public ResponseEntity<Void> updatePatient(@RequestBody PatientDto patientDto, @PathVariable Long id){
         patientService.updatePatient(patientDto, id);
         return  ResponseEntity.ok().build();
+    }
+
+    @CrossOrigin
+    @PostMapping("/auth/register/patient")
+    public ResponseEntity<UserDto> createUser(@RequestBody CreatePatientUserDto createPatientUserDto) throws UserNotCreated, PatientNotCreated {
+        LOGGER.info("--- create user account for patient: " + createPatientUserDto.toString());
+
+        UserDto userDto = userService.createPatientUser(createPatientUserDto);
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 }
