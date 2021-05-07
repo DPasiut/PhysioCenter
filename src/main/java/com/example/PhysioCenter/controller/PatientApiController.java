@@ -1,10 +1,10 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
-import com.example.PhysioCenter.domain.dto.patient.PatientNotCreated;
+import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
 import com.example.PhysioCenter.domain.dto.users.UserDto;
-import com.example.PhysioCenter.domain.dto.users.UserNotCreated;
+import com.example.PhysioCenter.domain.exceptions.UserNotCreatedException;
 import com.example.PhysioCenter.service.PatientService;
 import com.example.PhysioCenter.service.UserService;
 import org.slf4j.Logger;
@@ -60,7 +60,7 @@ public class PatientApiController {
 
     @CrossOrigin
     @PostMapping("/auth/register/patient")
-    public ResponseEntity<UserDto> createUser(@RequestBody CreatePatientUserDto createPatientUserDto) throws UserNotCreated, PatientNotCreated {
+    public ResponseEntity<UserDto> createUser(@RequestBody CreatePatientUserDto createPatientUserDto) throws UserNotCreatedException, PatientNotCreatedException {
         LOGGER.info("--- create user account for patient: " + createPatientUserDto.toString());
 
         UserDto userDto = userService.createPatientUser(createPatientUserDto);

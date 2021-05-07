@@ -1,9 +1,9 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
-import com.example.PhysioCenter.domain.dto.patient.PatientNotCreated;
+import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
 import com.example.PhysioCenter.domain.dto.users.UserDto;
-import com.example.PhysioCenter.domain.dto.users.UserNotCreated;
+import com.example.PhysioCenter.domain.exceptions.UserNotCreatedException;
 import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.entity.User;
 import com.example.PhysioCenter.domain.repository.PatientRepository;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto createPatientUser(CreatePatientUserDto createPatientUserDto) throws PatientNotCreated, UserNotCreated {
+    public UserDto createPatientUser(CreatePatientUserDto createPatientUserDto) throws PatientNotCreatedException, UserNotCreatedException {
         // TODO:
         // - TRANSACTIONAL QUERY (add patient + add user)
         // - COMPARE IF LOGIN AND PASSWORD DOESN'T EXISTS
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         );
 
         if (createdPatient == null) {
-            throw new PatientNotCreated();
+            throw new PatientNotCreatedException();
         }
 
         String encodedLogin = encoder.encode(createPatientUserDto.getLogin());
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         );
 
         if (createdUser == null) {
-            throw new UserNotCreated();
+            throw new UserNotCreatedException();
         }
 
         return createdUser.dto();
