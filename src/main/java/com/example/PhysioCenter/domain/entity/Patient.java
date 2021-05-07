@@ -42,7 +42,7 @@ public class Patient {
                 .patientId(this.patientId)
                 .name(this.name)
                 .surname(this.surname)
-                .phoneNumber(this.phoneNumber)
+                .phoneNumber(this.phoneNumber.trim())
                 .email(this.email)
                 .peselNo(this.peselNo)
                 .build();
