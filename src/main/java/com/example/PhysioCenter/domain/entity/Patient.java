@@ -19,10 +19,6 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    // generator = "fizjoterapia.patient_id_seq",
-    // @SequenceGenerator(name = "fizjoterapia.patient_id_seq", sequenceName = "fizjoterapia.patient_id_seq")
-
-    @OneToMany(cascade = CascadeType.ALL)
     @Column(name = "id_pacjenta")
     private Long patientId;
 
