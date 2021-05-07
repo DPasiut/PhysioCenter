@@ -8,5 +8,5 @@ public interface PatientService {
     List<PatientDto> findAll();
     PatientDto getPatientById(Long id);
     void updatePatient(PatientDto patient, Long id);
-    void deletePatientById(Long id);
+    boolean deletePatientById(Long id);
 }

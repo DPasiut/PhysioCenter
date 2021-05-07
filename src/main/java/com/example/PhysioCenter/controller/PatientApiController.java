@@ -44,4 +44,11 @@ public class PatientApiController {
         patientService.updatePatient(patientDto, id);
         return  ResponseEntity.ok().build();
     }
+
+    @CrossOrigin
+    @DeleteMapping("/patients/{id}")
+    public ResponseEntity<Void> deletePatient(@PathVariable("id") Long id){
+        patientService.deletePatientById(id);
+        return ResponseEntity.ok().build();
+    }
 }

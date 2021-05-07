@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PhysioCenter.service.PatientService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,14 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void deletePatientById(Long Id) {
+    public boolean deletePatientById(Long id) {
+        try {
+            patientRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
 
     }
 
