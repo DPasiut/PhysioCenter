@@ -24,7 +24,7 @@ public class PatientApiController {
 
     @CrossOrigin
     @GetMapping(value = "/patients")
-    public ResponseEntity<List<PatientDto>> getPatients(){
+    public ResponseEntity<List<PatientDto>> getPatients() {
         LOGGER.info("find all patients");
 
         List<PatientDto> patientDto = patientService.findAll();
@@ -33,20 +33,20 @@ public class PatientApiController {
 
     @CrossOrigin
     @GetMapping(value = "/patients/{id}")
-    public ResponseEntity<PatientDto> getPatientById(@PathVariable Long id){
-            return new ResponseEntity<>(patientService.getPatientById(id), HttpStatus.OK);
+    public ResponseEntity<PatientDto> getPatientById(@PathVariable Long id) {
+        return new ResponseEntity<>(patientService.getPatientById(id), HttpStatus.OK);
     }
 
     @CrossOrigin
     @PutMapping("/patients/{id}")
-    public ResponseEntity<Void> updatePatient(@RequestBody PatientDto patientDto, @PathVariable Long id){
+    public ResponseEntity<Void> updatePatient(@RequestBody PatientDto patientDto, @PathVariable Long id) {
         patientService.updatePatient(patientDto, id);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 
     @CrossOrigin
     @DeleteMapping("/patients/{id}")
-    public ResponseEntity<Void> deletePatient(@PathVariable("id") Long id){
+    public ResponseEntity<Void> deletePatient(@PathVariable("id") Long id) {
         patientService.deletePatientById(id);
         return ResponseEntity.ok().build();
     }

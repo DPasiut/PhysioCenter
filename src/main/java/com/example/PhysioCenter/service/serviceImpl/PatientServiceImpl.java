@@ -1,7 +1,7 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
-import com.example.PhysioCenter.domain.dto.patient.PatientNotFoundException;
+import com.example.PhysioCenter.domain.exceptions.PatientNotFoundException;
 import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.repository.PatientRepository;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public PatientDto getPatientById(Long id){
+    public PatientDto getPatientById(Long id) {
         requireNonNull(id);
         return findPatientById(id).get().dto();
     }
@@ -47,7 +47,7 @@ public class PatientServiceImpl implements PatientService {
     public void updatePatient(PatientDto patientDto, Long id) {
         Optional<Patient> patientOptional = patientRepository.findById(id);
 
-        if(patientOptional.isPresent()){
+        if (patientOptional.isPresent()) {
             Patient patient = patientOptional.get();
 
             patientRepository.save(patient.toBuilder()
@@ -65,16 +65,16 @@ public class PatientServiceImpl implements PatientService {
         try {
             patientRepository.deleteById(id);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
 
     }
 
-    private Optional<Patient> findPatientById(Long id){
+    private Optional<Patient> findPatientById(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
-        if(patient.isPresent()){
+        if (patient.isPresent()) {
             return patient;
         }
         throw new PatientNotFoundException(id);
