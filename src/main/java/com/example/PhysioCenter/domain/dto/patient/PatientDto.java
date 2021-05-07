@@ -1,4 +1,4 @@
-package com.example.PhysioCenter.domain.dto;
+package com.example.PhysioCenter.domain.dto.patient;
 
 import lombok.*;
 

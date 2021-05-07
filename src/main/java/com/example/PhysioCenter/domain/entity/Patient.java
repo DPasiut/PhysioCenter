@@ -1,6 +1,6 @@
 package com.example.PhysioCenter.domain.entity;
 
-import com.example.PhysioCenter.domain.dto.PatientDto;
+import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_pacjenta")
     private Long patientId;
 
@@ -37,7 +37,7 @@ public class Patient {
     @Column(name = "pesel")
     private String peselNo;
 
-    public PatientDto dto(){
+    public PatientDto dto() {
         return PatientDto.builder()
                 .patientId(this.patientId)
                 .name(this.name)
@@ -47,4 +47,5 @@ public class Patient {
                 .peselNo(this.peselNo)
                 .build();
     }
+
 }
