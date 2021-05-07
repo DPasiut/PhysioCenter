@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Optional;
 
 @Entity
 @Table(schema = "fizjoterapia", name = "pacjent")
@@ -19,8 +18,10 @@ import java.util.Optional;
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //dodać sekwencję w bazie danych do primary key
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    // generator = "fizjoterapia.patient_id_seq",
+    // @SequenceGenerator(name = "fizjoterapia.patient_id_seq", sequenceName = "fizjoterapia.patient_id_seq")
+
     @Column(name = "id_pacjenta")
     private Long patientId;
 

@@ -44,10 +44,22 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void updatePatient(PatientDto patientDto) {
-        requireNonNull(patientDto);
-        Patient patient = findPatientById(patientDto.getPatientId()).get().toBuilder().build();
-        patientRepository.save(patient.toBuilder().patientId(patientDto.getPatientId()).build());
+    public void updatePatient(PatientDto patientDto, Long id) {
+        //requireNonNull(patientDto);
+        Optional<Patient> patientOptional = patientRepository.findById(id);
+
+        if(patientOptional.isPresent()){
+            Patient patient = patientOptional.get();
+
+            patientRepository.save(patient.toBuilder()
+                    .name(patientDto.getName())
+                    .email(patientDto.getEmail())
+                    .peselNo(patientDto.getPeselNo())
+                    .phoneNumber(patientDto.getPhoneNumber())
+                    .surname(patientDto.getSurname())
+                    .build());
+
+        }
     }
 
     @Override

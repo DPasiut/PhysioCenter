@@ -1,5 +1,6 @@
 package com.example.PhysioCenter.domain.dto.patient;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 @Builder(toBuilder = true)
@@ -8,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+
 
 public class PatientDto {
     private Long patientId;
