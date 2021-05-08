@@ -1,7 +1,7 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
-import com.example.PhysioCenter.domain.exceptions.AuthDataDuplicatedException;
+import com.example.PhysioCenter.domain.exceptions.LoginDuplicatedException;
 import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
 import com.example.PhysioCenter.domain.dto.users.UserDto;
@@ -61,10 +61,15 @@ public class PatientApiController {
 
     @CrossOrigin
     @PostMapping("/auth/register/patient")
-    public ResponseEntity<UserDto> createUser(@RequestBody CreatePatientUserDto createPatientUserDto) throws UserNotCreatedException, PatientNotCreatedException, AuthDataDuplicatedException {
+    public ResponseEntity<UserDto> createUser(@RequestBody CreatePatientUserDto createPatientUserDto) throws UserNotCreatedException, PatientNotCreatedException, LoginDuplicatedException {
         LOGGER.info("--- create user account for patient: " + createPatientUserDto.toString());
 
-        UserDto userDto = userService.createPatientUser(createPatientUserDto);
+        UserDto userDto = null;
+        try {
+            userDto = userService.createPatientUser(createPatientUserDto);
+        } catch (LoginDuplicatedException exception) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
