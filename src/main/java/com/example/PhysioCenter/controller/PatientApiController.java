@@ -1,12 +1,11 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
-import com.example.PhysioCenter.domain.dto.users.RegisterPatientUserResponseDto;
+import com.example.PhysioCenter.domain.dto.users.*;
 import com.example.PhysioCenter.domain.exceptions.LoginDuplicatedException;
 import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
-import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
-import com.example.PhysioCenter.domain.dto.users.UserDto;
 import com.example.PhysioCenter.domain.exceptions.UserNotCreatedException;
+import com.example.PhysioCenter.domain.exceptions.WrongLoginDataException;
 import com.example.PhysioCenter.service.PatientService;
 import com.example.PhysioCenter.service.UserService;
 import org.slf4j.Logger;
@@ -80,5 +79,53 @@ public class PatientApiController {
         }
 
         return new ResponseEntity<>(registrationResponse, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/auth/login/patient")
+    public ResponseEntity<LoginResponseDto> loginPatient(@RequestBody LoginRequestDto loginRequestDto) {
+        UserDto userDto;
+
+        try {
+            userDto = userService.loginPatient(loginRequestDto);
+        } catch (WrongLoginDataException exception) {
+            return new ResponseEntity<>(
+                    new LoginResponseDto().toBuilder()
+                        .message(exception.getMessage())
+                        .build(),
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        return new ResponseEntity<>(
+                new LoginResponseDto().toBuilder()
+                    .user(userDto)
+                    .build(),
+                HttpStatus.OK
+        );
+    }
+
+    @CrossOrigin
+    @PostMapping("/auth/login/physio")
+    public ResponseEntity<LoginResponseDto> loginPhysio(@RequestBody LoginRequestDto loginRequestDto) {
+        UserDto userDto;
+
+        try {
+            userDto = userService.loginPhysio(loginRequestDto);
+        } catch (WrongLoginDataException exception) {
+            return new ResponseEntity<>(
+                    new LoginResponseDto().toBuilder()
+                            .message(exception.getMessage())
+                            .build(),
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        return new ResponseEntity<>(
+                new LoginResponseDto().toBuilder()
+                        .user(userDto)
+                        .build(),
+                HttpStatus.OK
+        );
     }
 }
