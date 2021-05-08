@@ -2,6 +2,7 @@ package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
+import com.example.PhysioCenter.domain.exceptions.PhysioNotCreatedException;
 import com.example.PhysioCenter.domain.exceptions.PhysioNotFoundException;
 import com.example.PhysioCenter.service.PhysioService;
 import com.example.PhysioCenter.service.UserService;
@@ -56,6 +57,12 @@ public class PhysioApiController {
         }catch (PhysioNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @CrossOrigin
+    @PostMapping("/physio")
+    public ResponseEntity<PhysioDto> createPhysio(@RequestBody PhysioDto physioDto) throws PhysioNotCreatedException {
+        return new ResponseEntity<>(physioService.addPhysio(physioDto), HttpStatus.OK);
     }
 
 }

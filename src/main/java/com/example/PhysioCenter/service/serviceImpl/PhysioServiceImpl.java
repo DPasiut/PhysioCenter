@@ -3,6 +3,7 @@ package com.example.PhysioCenter.service.serviceImpl;
 import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
 import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.entity.Physio;
+import com.example.PhysioCenter.domain.exceptions.PhysioNotCreatedException;
 import com.example.PhysioCenter.domain.exceptions.PhysioNotFoundException;
 import com.example.PhysioCenter.domain.repository.PhysioRepository;
 import com.example.PhysioCenter.service.PhysioService;
@@ -65,7 +66,23 @@ public class PhysioServiceImpl implements PhysioService {
     }
 
     @Override
-    public Physio addPhysio(Physio patient) {
-        return null;
+    public PhysioDto addPhysio(PhysioDto physioDto) throws PhysioNotCreatedException {
+
+        Physio createdPhysio = physioRepository.save(
+                Physio.builder()
+                        .name(physioDto.getName())
+                        .surname(physioDto.getSurname())
+                        .email(physioDto.getEmail())
+                        .phoneNumber(physioDto.getPhoneNumber())
+                        .licenceNo(physioDto.getLicenceNo())
+                        .build()
+        );
+
+        if (createdPhysio == null){
+            throw new PhysioNotCreatedException();
+        }
+
+        return createdPhysio.dto();
     }
+
 }
