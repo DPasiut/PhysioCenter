@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class LoginPatientRequestDto {
-    private String login;
-    private String password;
+public class LoginResponseDto {
+    private String message;
+    private UserDto user;
 }

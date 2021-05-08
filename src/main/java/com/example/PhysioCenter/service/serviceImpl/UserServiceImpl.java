@@ -1,6 +1,7 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
-import com.example.PhysioCenter.domain.dto.users.LoginPatientRequestDto;
+import com.example.PhysioCenter.domain.dto.users.LoginRequestDto;
+import com.example.PhysioCenter.domain.enums.UserType;
 import com.example.PhysioCenter.domain.exceptions.LoginDuplicatedException;
 import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
@@ -81,10 +82,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto loginPatient(LoginPatientRequestDto loginPatientRequestDto) throws WrongLoginDataException {
+    public UserDto loginPatient(LoginRequestDto loginRequestDto) throws WrongLoginDataException {
         for (User user: userRepository.findAll()) {
-            if (encoder.matches(loginPatientRequestDto.getLogin(), user.getLogin())) {
-               if (encoder.matches(loginPatientRequestDto.getPassword(), user.getPassword()) && user.getPatientId() != null) {
+            if (encoder.matches(loginRequestDto.getLogin(), user.getLogin())) {
+               if (encoder.matches(loginRequestDto.getPassword(), user.getPassword()) && user.getPatientId() != null) {
                    return user.dto();
                }
                break;
@@ -92,5 +93,19 @@ public class UserServiceImpl implements UserService {
         }
 
        throw new WrongLoginDataException();
+    }
+
+    @Override
+    public UserDto loginPhysio(LoginRequestDto loginRequestDto) throws WrongLoginDataException {
+        for (User user: userRepository.findAll()) {
+            if (encoder.matches(loginRequestDto.getLogin(), user.getLogin())) {
+                if (encoder.matches(loginRequestDto.getPassword(), user.getPassword()) && user.getPhysioId() != null) {
+                    return user.dto();
+                }
+                break;
+            }
+        }
+
+        throw new WrongLoginDataException();
     }
 }

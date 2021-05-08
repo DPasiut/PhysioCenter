@@ -83,14 +83,14 @@ public class PatientApiController {
 
     @CrossOrigin
     @PostMapping("/auth/login/patient")
-    public ResponseEntity<LoginPatientResponseDto> loginPatient(@RequestBody LoginPatientRequestDto loginPatientRequestDto) {
+    public ResponseEntity<LoginResponseDto> loginPatient(@RequestBody LoginRequestDto loginRequestDto) {
         UserDto userDto;
 
         try {
-            userDto = userService.loginPatient(loginPatientRequestDto);
+            userDto = userService.loginPatient(loginRequestDto);
         } catch (WrongLoginDataException exception) {
             return new ResponseEntity<>(
-                    new LoginPatientResponseDto().toBuilder()
+                    new LoginResponseDto().toBuilder()
                         .message(exception.getMessage())
                         .build(),
                     HttpStatus.UNAUTHORIZED
@@ -98,9 +98,33 @@ public class PatientApiController {
         }
 
         return new ResponseEntity<>(
-                new LoginPatientResponseDto().toBuilder()
+                new LoginResponseDto().toBuilder()
                     .user(userDto)
                     .build(),
+                HttpStatus.OK
+        );
+    }
+
+    @CrossOrigin
+    @PostMapping("/auth/login/physio")
+    public ResponseEntity<LoginResponseDto> loginPhysio(@RequestBody LoginRequestDto loginRequestDto) {
+        UserDto userDto;
+
+        try {
+            userDto = userService.loginPhysio(loginRequestDto);
+        } catch (WrongLoginDataException exception) {
+            return new ResponseEntity<>(
+                    new LoginResponseDto().toBuilder()
+                            .message(exception.getMessage())
+                            .build(),
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        return new ResponseEntity<>(
+                new LoginResponseDto().toBuilder()
+                        .user(userDto)
+                        .build(),
                 HttpStatus.OK
         );
     }
