@@ -65,20 +65,20 @@ public class PatientApiController {
     public ResponseEntity<RegisterPatientUserResponseDto> createUser(@RequestBody CreatePatientUserDto createPatientUserDto) throws UserNotCreatedException, PatientNotCreatedException, LoginDuplicatedException {
         LOGGER.info("--- create user account for patient: " + createPatientUserDto.toString());
 
-        RegisterPatientUserResponseDto registrationResponsse = null;
+        RegisterPatientUserResponseDto registrationResponse = null;
         try {
-            registrationResponsse.toBuilder()
+            registrationResponse = new RegisterPatientUserResponseDto().toBuilder()
                     .userDto(userService.createPatientUser(createPatientUserDto))
                     .build();
         } catch (LoginDuplicatedException exception) {
             return new ResponseEntity<>(
-                    registrationResponsse.toBuilder()
+                    new RegisterPatientUserResponseDto().toBuilder()
                             .message(exception.getMessage())
                             .build(),
                     HttpStatus.BAD_REQUEST
             );
         }
 
-        return new ResponseEntity<>(registrationResponsse, HttpStatus.OK);
+        return new ResponseEntity<>(registrationResponse, HttpStatus.OK);
     }
 }
