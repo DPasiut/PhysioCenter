@@ -1,6 +1,7 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
+import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.entity.Physio;
 import com.example.PhysioCenter.domain.exceptions.PhysioNotFoundException;
 import com.example.PhysioCenter.domain.repository.PhysioRepository;
@@ -39,8 +40,23 @@ public class PhysioServiceImpl implements PhysioService {
     }
 
     @Override
-    public void updatePhysio(PhysioDto patient, Long id) {
+    public PhysioDto updatePhysio(PhysioDto physioDto, Long id) {
+        Optional<Physio> physioOptional = physioRepository.findById(id);
 
+        if (physioOptional.isPresent()) {
+            Physio physio = physioOptional.get();
+
+            physioRepository.save(physio.toBuilder()
+                    .name(physioDto.getName())
+                    .email(physioDto.getEmail())
+                    .licenceNo(physioDto.getLicenceNo())
+                    .phoneNumber(physioDto.getPhoneNumber())
+                    .surname(physioDto.getSurname())
+                    .build());
+
+            return physio.dto();
+        }
+        throw new PhysioNotFoundException(id);
     }
 
     @Override

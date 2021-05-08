@@ -8,7 +8,7 @@ import java.util.List;
 public interface PhysioService {
     List<PhysioDto> findAll();
     PhysioDto getPhysioById(Long id);
-    void updatePhysio(PhysioDto patient, Long id);
+    PhysioDto updatePhysio(PhysioDto patient, Long id);
     boolean deletePhysioById(Long id);
     Physio addPhysio(Physio patient);
 }

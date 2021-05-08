@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,11 +39,23 @@ public class PhysioApiController {
 
     @CrossOrigin
     @GetMapping(value = "/physio/{id}")
-    public ResponseEntity<PhysioDto> getPhysioById(@PathVariable Long id) {
+    public ResponseEntity<PhysioDto> getPhysioById(@PathVariable Long id) throws PhysioNotFoundException {
         try {
             return new ResponseEntity<>(physioService.getPhysioById(id), HttpStatus.OK);
-        }catch (PhysioNotFoundException e){
+        }catch (PhysioNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @CrossOrigin
+    @PutMapping("/physio/{id}")
+    public ResponseEntity<PhysioDto> updatePhysio(@RequestBody PhysioDto physioDto, @PathVariable Long id) throws PhysioNotFoundException {
+        try {
+            PhysioDto physio = physioService.updatePhysio(physioDto, id);
+            return new ResponseEntity<>(physio, HttpStatus.OK);
+        }catch (PhysioNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
