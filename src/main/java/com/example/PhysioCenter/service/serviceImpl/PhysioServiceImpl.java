@@ -62,7 +62,8 @@ public class PhysioServiceImpl implements PhysioService {
 
     @Override
     public boolean deletePhysioById(Long id) {
-        return false;
+            physioRepository.deleteById(id);
+            return true;
     }
 
     @Override

@@ -65,4 +65,9 @@ public class PhysioApiController {
         return new ResponseEntity<>(physioService.addPhysio(physioDto), HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @DeleteMapping("/physio/{id}")
+    public ResponseEntity<Boolean> deletePhysio(@PathVariable Long id) {
+        return new ResponseEntity<>(physioService.deletePhysioById(id), HttpStatus.OK);
+    }
 }
