@@ -1,7 +1,7 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.domain.dto.users.LoginRequestDto;
-import com.example.PhysioCenter.domain.enums.UserType;
+import com.example.PhysioCenter.domain.dto.users.UpdatePasswordDto;
 import com.example.PhysioCenter.domain.exceptions.LoginDuplicatedException;
 import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.dto.users.CreatePatientUserDto;
@@ -107,5 +107,20 @@ public class UserServiceImpl implements UserService {
         }
 
         throw new WrongLoginDataException();
+    }
+
+    @Override
+    public boolean updateUserPassword(UpdatePasswordDto userPasswordDto, Long id) {
+        User user = userRepository.getOne(id);
+
+        if (user != null) {
+            String encodedPassword = encoder.encode(userPasswordDto.getPassword());
+            user.setPassword(encodedPassword);
+            userRepository.save(user);
+
+            return true;
+        }
+
+        return false;
     }
 }
