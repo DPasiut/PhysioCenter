@@ -8,9 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class DateOfTheVisitDto {
-    private Long id;
-    private String lowerBound;
-    private String upperBound;
-    //private LocalDate date;
+public class VisitRoomDto {
+    String roomNumber;
 }
