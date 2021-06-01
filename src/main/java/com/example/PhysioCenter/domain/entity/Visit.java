@@ -19,7 +19,7 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "nr_wizyty")
-    private Long visitId;
+    private String visitId;
 
     @Column(name = "id_pacjenta")
     private Long patientId;

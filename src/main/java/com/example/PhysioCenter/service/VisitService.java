@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface VisitService {
     List<VisitDto> findAll();
-    VisitDto getVisitById(Long id);
+    VisitDto getVisitById(String id);
     List<VisitDto> getVisitByPatientId(Long id);
     List<VisitDto> getVisitByPhysioId(Long id);
     List<VisitDto> getVisitByDate(Date date);

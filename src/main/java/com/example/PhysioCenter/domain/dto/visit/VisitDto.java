@@ -15,8 +15,10 @@ public class VisitDto {
     String patientSurname;
     String physioName;
     String physioSurname;
-    Long roomNumber;
-    Date date;
+    String roomNumber;
+    String date;
+    String hourFrom;
+    String hourTo;
 }
 
 
