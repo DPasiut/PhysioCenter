@@ -1,5 +1,6 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
+import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.domain.dto.users.LoginRequestDto;
 import com.example.PhysioCenter.domain.dto.users.UpdatePasswordDto;
 import com.example.PhysioCenter.domain.exceptions.LoginDuplicatedException;
@@ -17,6 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+import static java.util.Objects.requireNonNull;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -122,5 +127,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return false;
+    }
+
+    @Override
+    public UserDto getUserById(Long id) {
+        requireNonNull(id);
+        Optional<User> user = userRepository.findById(id);
+        return user.isPresent() ? user.get().dto() : null;
     }
 }

@@ -2,6 +2,8 @@ package com.example.PhysioCenter.domain.dto.message;
 
 import lombok.*;
 
+import java.util.Date;
+
 @Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
@@ -14,4 +16,5 @@ public class MessageDto {
     private Long physioId;
     private Boolean directionToPhysio;
     private String message;
+    private Date date;
 }

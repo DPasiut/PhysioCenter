@@ -7,13 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(schema = "fizjoterapia", name = "pacjent")
+@Table(schema = "fizjoterapia", name = "wiadomosci")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
+
 public class Message {
 
     @Id
@@ -33,11 +35,15 @@ public class Message {
     @Column(name = "wiadomosc")
     private String message;
 
+    @Column(name = "date")
+    private Date date;
+
     public MessageDto dto() {
         return MessageDto.builder()
                 .messageId(this.messageId)
                 .patientId(this.patientId)
                 .physioId(this.physioId)
+                .date(this.date)
                 .directionToPhysio(this.directionToPhysio)
                 .message(this.message.trim())
                 .build();
