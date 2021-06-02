@@ -11,5 +11,5 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class LastMessageListDto {
-    List<MessageDto> lastMessages;
+    List<MessageObjectDto> lastMessages;
 }

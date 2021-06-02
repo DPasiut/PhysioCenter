@@ -4,11 +4,14 @@ import com.example.PhysioCenter.controller.PatientApiController;
 import com.example.PhysioCenter.domain.dto.message.AddMessageDto;
 import com.example.PhysioCenter.domain.dto.message.MessageDto;
 import com.example.PhysioCenter.domain.dto.message.LastMessageListDto;
+import com.example.PhysioCenter.domain.dto.message.MessageObjectDto;
 import com.example.PhysioCenter.domain.dto.users.UserDto;
 import com.example.PhysioCenter.domain.entity.Message;
 import com.example.PhysioCenter.domain.exceptions.FailedSendMessage;
 import com.example.PhysioCenter.domain.repository.MessageRepository;
 import com.example.PhysioCenter.service.MessageService;
+import com.example.PhysioCenter.service.PatientService;
+import com.example.PhysioCenter.service.PhysioService;
 import com.example.PhysioCenter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,25 +26,38 @@ import java.util.stream.StreamSupport;
 @Service
 public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
+    private final PatientService patientService;
+    private final PhysioService physioService;
     private final UserService userService;
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientApiController.class);
 
     @Autowired
-    public MessageServiceImpl(UserService userService, MessageRepository messageRepository) {
+    public MessageServiceImpl(
+            UserService userService,
+            MessageRepository messageRepository,
+            PatientService patientService,
+            PhysioService physioService
+    ) {
         this.messageRepository = messageRepository;
+        this.patientService = patientService;
+        this.physioService = physioService;
         this.userService = userService;
     }
 
     private LastMessageListDto getPatientMessages(Long patientId) {
         LOGGER.info("getPatientMessages(" + patientId + ")");
         List<Long> lastMessageIds = messageRepository.getPhysioMessageIds(patientId);
-        List<MessageDto> lastMessages = new ArrayList<>();
+        List<MessageObjectDto> lastMessages = new ArrayList<>();
         LOGGER.info("getPatientMessages(" + patientId + ") lastMessageIds: " + lastMessageIds.toString());
 
         for (Long physioId: lastMessageIds) {
             Message m = messageRepository.getLastMessage(patientId, physioId);
             if (m != null) {
-                lastMessages.add(m.dto());
+                lastMessages.add(new MessageObjectDto(
+                        m.dto(),
+                        patientService.getPatientById(m.getPatientId()),
+                        physioService.getPhysioById(m.getPhysioId())
+                ));
             }
         }
 
@@ -51,13 +67,17 @@ public class MessageServiceImpl implements MessageService {
     private LastMessageListDto getPhysioMessages(Long physioId) {
         LOGGER.info("getPhysioMessages(" + physioId + ")");
         List<Long> lastMessageIds = messageRepository.getPatientMessageIds(physioId);
-        List<MessageDto> lastMessages = new ArrayList<>();
+        List<MessageObjectDto> lastMessages = new ArrayList<>();
         LOGGER.info("getPhysioMessages(" + physioId + ") lastMessageIds: " + lastMessageIds.toString());
 
         for (Long patientId: lastMessageIds) {
             Message m = messageRepository.getLastMessage(patientId, physioId);
             if (m != null) {
-                lastMessages.add(m.dto());
+                lastMessages.add(new MessageObjectDto(
+                        m.dto(),
+                        patientService.getPatientById(m.getPatientId()),
+                        physioService.getPhysioById(m.getPhysioId())
+                ));
             }
         }
 

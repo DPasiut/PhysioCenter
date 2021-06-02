@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends CrudRepository<Message, Long> {
-    @Query(value = "SELECT * FROM fizjoterapia.wiadomosci AS m WHERE m.fizjo_id = :physioId AND m.pacjent_id = :patientId ORDER BY m.date LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM fizjoterapia.wiadomosci AS m WHERE m.fizjo_id = :physioId AND m.pacjent_id = :patientId ORDER BY m.created_at LIMIT 1", nativeQuery = true)
     Message getLastMessage(@Param("patientId") Long patientId, @Param("physioId") Long physioId);
 
     @Query(value = "SELECT DISTINCT(m.pacjent_id) FROM fizjoterapia.wiadomosci AS m WHERE m.fizjo_id = :physioId", nativeQuery = true)
