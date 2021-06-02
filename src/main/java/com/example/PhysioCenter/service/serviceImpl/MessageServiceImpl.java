@@ -1,10 +1,14 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.controller.PatientApiController;
+import com.example.PhysioCenter.domain.dto.message.AddMessageDto;
 import com.example.PhysioCenter.domain.dto.message.MessageDto;
 import com.example.PhysioCenter.domain.dto.message.MessageListDto;
 import com.example.PhysioCenter.domain.dto.users.UserDto;
 import com.example.PhysioCenter.domain.entity.Message;
+import com.example.PhysioCenter.domain.entity.Patient;
+import com.example.PhysioCenter.domain.exceptions.FailedSendMessage;
+import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.repository.MessageRepository;
 import com.example.PhysioCenter.service.MessageService;
 import com.example.PhysioCenter.service.UserService;
@@ -21,7 +25,6 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final UserService userService;
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientApiController.class);
-
 
     @Autowired
     public MessageServiceImpl(UserService userService, MessageRepository messageRepository) {
@@ -78,8 +81,22 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public MessageDto postMessage(MessageDto message) {
-        return null;
+    public MessageDto postMessage(AddMessageDto message) throws FailedSendMessage {
+        Message createdMessage = messageRepository.save(
+                new Message().toBuilder()
+                        //.messageId(message.getMessageId())
+                        .patientId(message.getPatientId())
+                        .physioId(message.getPhysioId())
+                        .directionToPhysio(message.getDirectionToPhysio())
+                        .message(message.getMessage())
+                        .build()
+        );
+
+        if (createdMessage == null) {
+            throw new FailedSendMessage();
+        }
+
+        return createdMessage.dto();
     }
 
     @Override

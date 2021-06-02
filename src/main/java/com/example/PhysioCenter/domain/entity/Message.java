@@ -23,27 +23,27 @@ public class Message {
     @Column(name = "wiadomosci_id")
     private Long messageId;
 
-    @Column(name = "pacjent_id")
+    @Column(name = "pacjent_id", nullable = false)
     private Long patientId;
 
-    @Column(name = "fizjo_id")
+    @Column(name = "fizjo_id", nullable = false)
     private Long physioId;
 
-    @Column(name = "do_fizjo")
+    @Column(name = "do_fizjo", nullable = false)
     private Boolean directionToPhysio;
 
-    @Column(name = "wiadomosc")
+    @Column(name = "wiadomosc", nullable = false)
     private String message;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "created_at")
+    private Date createdAt;
 
     public MessageDto dto() {
         return MessageDto.builder()
                 .messageId(this.messageId)
                 .patientId(this.patientId)
                 .physioId(this.physioId)
-                .date(this.date)
+                .createdAt(this.createdAt)
                 .directionToPhysio(this.directionToPhysio)
                 .message(this.message.trim())
                 .build();

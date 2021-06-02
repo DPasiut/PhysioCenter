@@ -16,5 +16,5 @@ public class MessageDto {
     private Long physioId;
     private Boolean directionToPhysio;
     private String message;
-    private Date date;
+    private Date createdAt;
 }
