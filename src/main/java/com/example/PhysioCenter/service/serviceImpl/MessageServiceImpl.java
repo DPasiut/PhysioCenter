@@ -3,12 +3,10 @@ package com.example.PhysioCenter.service.serviceImpl;
 import com.example.PhysioCenter.controller.PatientApiController;
 import com.example.PhysioCenter.domain.dto.message.AddMessageDto;
 import com.example.PhysioCenter.domain.dto.message.MessageDto;
-import com.example.PhysioCenter.domain.dto.message.MessageListDto;
+import com.example.PhysioCenter.domain.dto.message.LastMessageListDto;
 import com.example.PhysioCenter.domain.dto.users.UserDto;
 import com.example.PhysioCenter.domain.entity.Message;
-import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.exceptions.FailedSendMessage;
-import com.example.PhysioCenter.domain.exceptions.PatientNotCreatedException;
 import com.example.PhysioCenter.domain.repository.MessageRepository;
 import com.example.PhysioCenter.service.MessageService;
 import com.example.PhysioCenter.service.UserService;
@@ -19,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -32,7 +32,7 @@ public class MessageServiceImpl implements MessageService {
         this.userService = userService;
     }
 
-    private MessageListDto getPatientMessages(Long patientId) {
+    private LastMessageListDto getPatientMessages(Long patientId) {
         LOGGER.info("getPatientMessages(" + patientId + ")");
         List<Long> lastMessageIds = messageRepository.getPhysioMessageIds(patientId);
         List<MessageDto> lastMessages = new ArrayList<>();
@@ -45,10 +45,10 @@ public class MessageServiceImpl implements MessageService {
             }
         }
 
-        return new MessageListDto(lastMessages);
+        return new LastMessageListDto(lastMessages);
     }
 
-    private MessageListDto getPhysioMessages(Long physioId) {
+    private LastMessageListDto getPhysioMessages(Long physioId) {
         LOGGER.info("getPhysioMessages(" + physioId + ")");
         List<Long> lastMessageIds = messageRepository.getPatientMessageIds(physioId);
         List<MessageDto> lastMessages = new ArrayList<>();
@@ -61,11 +61,11 @@ public class MessageServiceImpl implements MessageService {
             }
         }
 
-        return new MessageListDto(lastMessages);
+        return new LastMessageListDto(lastMessages);
     }
 
     @Override
-    public MessageListDto getLastMessages(Long currentUserId) {
+    public LastMessageListDto getLastMessages(Long currentUserId) {
         UserDto user = userService.getUserById(currentUserId);
         if (user != null) {
             if (user.getPatientId() !=  null) {
@@ -73,8 +73,6 @@ public class MessageServiceImpl implements MessageService {
             } else if (user.getPhysioId() != null) {
                 return this.getPhysioMessages(user.getPhysioId());
             }
-
-            return null;
         }
 
         return null;
@@ -84,7 +82,6 @@ public class MessageServiceImpl implements MessageService {
     public MessageDto postMessage(AddMessageDto message) throws FailedSendMessage {
         Message createdMessage = messageRepository.save(
                 new Message().toBuilder()
-                        //.messageId(message.getMessageId())
                         .patientId(message.getPatientId())
                         .physioId(message.getPhysioId())
                         .directionToPhysio(message.getDirectionToPhysio())
@@ -100,17 +97,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageDto> getMessageWithPatient(Long patientId, Long userId) {
-        return null;
-    }
-
-    @Override
-    public List<MessageDto> getMessageWithPhysio(Long userId, Long patientId) {
-        return null;
-    }
-
-    @Override
-    public List<MessageDto> findByPatientId(Long id) {
-        return null;
+    public List<MessageDto> getMessageWithPerson(Long physioId, Long patientId) {
+        return StreamSupport.stream(messageRepository
+                    .getMessageWithPerson(physioId, patientId)
+                    .spliterator(), false)
+                    .map(Message::dto)
+                    .collect(Collectors.toList()
+        );
     }
 }

@@ -10,6 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class MessageListDto {
+public class LastMessageListDto {
     List<MessageDto> lastMessages;
 }

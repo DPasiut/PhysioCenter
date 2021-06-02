@@ -18,4 +18,7 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
 
     @Query(value = "SELECT DISTINCT(m.fizjo_id) FROM fizjoterapia.wiadomosci AS m WHERE m.pacjent_id = :patientId", nativeQuery = true)
     List<Long> getPhysioMessageIds(@Param("patientId") Long patientId);
+
+    @Query(value = "SELECT * FROM fizjoterapia.wiadomosci AS m WHERE m.pacjent_id = :patientId AND m.fizjo_id = :physioId", nativeQuery = true)
+    List<Message> getMessageWithPerson(@Param("physioId") Long physioId, @Param("patientId") Long patientId);
 }
