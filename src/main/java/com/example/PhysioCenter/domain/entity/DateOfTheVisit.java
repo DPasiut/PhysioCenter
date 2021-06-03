@@ -37,6 +37,7 @@ public class DateOfTheVisit {
     columnDefinition = "tsrange")
     private Range<LocalDateTime> dateRange;
 
+
     public DateOfTheVisitDto dto(){
         return DateOfTheVisitDto.builder()
                 .id(this.getDateId())

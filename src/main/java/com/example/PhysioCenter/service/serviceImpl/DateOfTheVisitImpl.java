@@ -6,6 +6,7 @@ import com.example.PhysioCenter.domain.entity.DateOfTheVisit;
 import com.example.PhysioCenter.domain.repository.DateOfTheVisitRepository;
 import com.example.PhysioCenter.service.DateOfThVisitService;
 import com.vladmihalcea.hibernate.type.range.Range;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,7 +28,7 @@ public class DateOfTheVisitImpl implements DateOfThVisitService {
     @Override
     public List<DateOfTheVisitDto> findAll() {
         return StreamSupport.stream(dateOfTheVisitRepository
-                .findAll().spliterator(), false)
+                .findAll(Sort.by(Sort.Direction.ASC, "dateRange")).spliterator(), false)
                 .map(DateOfTheVisit::dto)
                 .collect(Collectors.toList());
     }
@@ -40,6 +41,8 @@ public class DateOfTheVisitImpl implements DateOfThVisitService {
                 .map(DateOfTheVisit::dto)
                 .collect(Collectors.toList());
     }
+
+
 
     @Override
     public DateOfTheVisitDto getDateById(Long id) {
@@ -55,8 +58,10 @@ public class DateOfTheVisitImpl implements DateOfThVisitService {
         DateOfTheVisit dateOfTheVisit = new DateOfTheVisit();
 
         dateOfTheVisit.setDateRange(Range.closedOpen(
-                LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), startHour.getHour(), startHour.getMinute()),
-                LocalDateTime.of(date.getYear(),date.getMonth(),date.getDayOfMonth(), endHour.getHour(), endHour.getMinute()
+                LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(),
+                        startHour.getHour(), startHour.getMinute()),
+                LocalDateTime.of(date.getYear(),date.getMonth(),date.getDayOfMonth(),
+                        endHour.getHour(), endHour.getMinute()
                 )
         ));
 

@@ -5,6 +5,7 @@ import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
 import com.example.PhysioCenter.domain.dto.visit.CreateVisitDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitRoomDto;
+import com.example.PhysioCenter.domain.entity.DateOfTheVisit;
 import com.example.PhysioCenter.domain.entity.Visit;
 import com.example.PhysioCenter.domain.repository.*;
 import com.example.PhysioCenter.service.VisitService;
@@ -25,6 +26,7 @@ public class VisitServiceImpl implements VisitService {
     private final DateOfTheVisitImpl dateOfTheVisit;
     private final RoomServiceImpl roomService;
     private final DateOfTheVisitRepository dateOfTheVisitRepository;
+
 
     public VisitServiceImpl(VisitRepository visitRepository, PatientServiceImpl patientService, PhysioServiceImpl physioService, DateOfTheVisitImpl dateOfTheVisit, RoomServiceImpl roomService, DateOfTheVisitRepository dateOfTheVisitRepository) {
         this.visitRepository = visitRepository;
@@ -84,20 +86,30 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public CreateVisitDto addVisit(CreateVisitDto createVisitDto) {
 
-        Visit createdVisit = visitRepository.save(
-                new Visit().toBuilder()
-                        .patientId(createVisitDto.getPatientId())
-                        .physioId(createVisitDto.getPhysioId())
-                        .dateId(createVisitDto.getDateId())
-                        .roomId(createVisitDto.getRoomId())
-                        .build()
-        );
+        Visit createdVisit = new Visit();
+        try {
+            createdVisit = visitRepository.save(
+                    new Visit().toBuilder()
+                            .patientId(createVisitDto.getPatientId())
+                            .physioId(createVisitDto.getPhysioId())
+                            .dateId(createVisitDto.getDateId())
+                            .roomId(createVisitDto.getRoomId())
+                            .build()
+            );
+
+
+        }catch (Exception e){
+            System.out.println("Something went wrong at save new Visit");
+        }
+
+
         CreateVisitDto visitDto = new CreateVisitDto().toBuilder()
                 .dateId(createdVisit.getDateId())
                 .patientId(createdVisit.getPatientId())
                 .physioId(createdVisit.getPhysioId())
                 .roomId(createdVisit.getRoomId())
                 .build();
+
         return visitDto ;
     }
 }
