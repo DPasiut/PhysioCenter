@@ -18,12 +18,12 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api")
 
-public class DateRoomController {
+public class DateRoomApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientApiController.class);
 
     private final DateRoomService dateRoomService;
 
-    public DateRoomController(DateRoomService dateRoomService) {
+    public DateRoomApiController(DateRoomService dateRoomService) {
         this.dateRoomService = dateRoomService;
     }
 

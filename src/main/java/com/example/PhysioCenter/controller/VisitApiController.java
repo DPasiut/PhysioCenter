@@ -34,7 +34,7 @@ public class VisitApiController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "visit/add")
+    @PostMapping(value = "/visit/add")
     public ResponseEntity<CreateVisitDto> addVisit(@RequestBody CreateVisitDto createVisitDto){
         LOGGER.info("create new visit");
 

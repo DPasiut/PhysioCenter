@@ -18,12 +18,12 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api")
 
-public class DatePhysioController {
+public class DatePhysioApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientApiController.class);
 
     private final DatePhysioServiceImpl datePhysioService;
 
-    public DatePhysioController(DatePhysioServiceImpl datePhysioService) {
+    public DatePhysioApiController(DatePhysioServiceImpl datePhysioService) {
         this.datePhysioService = datePhysioService;
     }
 

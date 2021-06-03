@@ -5,8 +5,7 @@ import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
 import com.example.PhysioCenter.domain.dto.visit.CreateVisitDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitRoomDto;
-import com.example.PhysioCenter.domain.entity.DateOfTheVisit;
-import com.example.PhysioCenter.domain.entity.Visit;
+import com.example.PhysioCenter.domain.entity.*;
 import com.example.PhysioCenter.domain.repository.*;
 import com.example.PhysioCenter.service.VisitService;
 import com.vladmihalcea.hibernate.type.range.Range;
@@ -23,18 +22,20 @@ public class VisitServiceImpl implements VisitService {
 
     private final PatientServiceImpl patientService;
     private final PhysioServiceImpl physioService;
-    private final DateOfTheVisitImpl dateOfTheVisit;
     private final RoomServiceImpl roomService;
     private final DateOfTheVisitRepository dateOfTheVisitRepository;
+    private final DateRoomRepository dateRoomRepository;
+    private final DatePhysioRepository datePhysioRepository;
 
 
-    public VisitServiceImpl(VisitRepository visitRepository, PatientServiceImpl patientService, PhysioServiceImpl physioService, DateOfTheVisitImpl dateOfTheVisit, RoomServiceImpl roomService, DateOfTheVisitRepository dateOfTheVisitRepository) {
+    public VisitServiceImpl(VisitRepository visitRepository, PatientServiceImpl patientService, PhysioServiceImpl physioService, DateOfTheVisitImpl dateOfTheVisit, RoomServiceImpl roomService, DateOfTheVisitRepository dateOfTheVisitRepository, DateRoomRepository dateRoomRepository, DatePhysioRepository datePhysioRepository) {
         this.visitRepository = visitRepository;
         this.patientService = patientService;
         this.physioService = physioService;
-        this.dateOfTheVisit = dateOfTheVisit;
         this.roomService = roomService;
         this.dateOfTheVisitRepository = dateOfTheVisitRepository;
+        this.dateRoomRepository = dateRoomRepository;
+        this.datePhysioRepository = datePhysioRepository;
     }
 
     @Override
@@ -97,6 +98,17 @@ public class VisitServiceImpl implements VisitService {
                             .build()
             );
 
+            DatePhysio datePhysio = datePhysioRepository.findById(
+                    new DatePhysioId(createVisitDto.getPhysioId(), createdVisit.getDateId())).get();
+            DateRoom dateRoom = dateRoomRepository.findById(
+                    new DateRoomId(createVisitDto.getDateId(), createVisitDto.getRoomId())
+            ).get();
+
+            datePhysio.setIsAvailable(false);
+            dateRoom.setIsAvailable(false);
+
+            datePhysioRepository.save(datePhysio);
+            dateRoomRepository.save(dateRoom);
 
         }catch (Exception e){
             System.out.println("Something went wrong at save new Visit");
