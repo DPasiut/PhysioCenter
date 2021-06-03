@@ -69,6 +69,7 @@ public class DatePhysioServiceImpl implements DatePhysioService {
         DatePhysio datePhysio = new DatePhysio();
         datePhysio.setDateId(addDatePhysioDto.getDateId());
         datePhysio.setPhysioId(addDatePhysioDto.getPhysioId());
+        datePhysio.setIsAvailable(true);
         //TODO: refactor to builder
 
         datePhysioRepository.save(datePhysio);

@@ -13,5 +13,4 @@ public interface DatePhysioRepository extends CrudRepository <DatePhysio, DatePh
 
     @Query(value = "SELECT * FROM fizjoterapia.fizjoterapeuta_termin limit 10", nativeQuery = true)
     List<DatePhysio> findAllDatePhysio();
-
 }
