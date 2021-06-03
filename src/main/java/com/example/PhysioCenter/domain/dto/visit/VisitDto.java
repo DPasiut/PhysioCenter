@@ -2,7 +2,6 @@ package com.example.PhysioCenter.domain.dto.visit;
 
 import lombok.*;
 
-import java.util.Date;
 
 @Builder(toBuilder = true)
 @Data

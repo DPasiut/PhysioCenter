@@ -1,5 +1,6 @@
 package com.example.PhysioCenter.domain.entity;
 
+import com.example.PhysioCenter.domain.dto.visit.CreateVisitDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "nr_wizyty")
-    private String visitId;
+    private Long visitId;
 
     @Column(name = "id_pacjenta")
     private Long patientId;
@@ -32,5 +33,14 @@ public class Visit {
 
     @Column(name = "id_terminu")
     private Long dateId;
+
+//    public CreateVisitDto dto(){
+//        return CreateVisitDto.builder()
+//                .dateId(this.dateId)
+//                .patientId(this.patientId)
+//                .physioId(this.physioId)
+//                .roomId(this.roomId)
+//                .build();
+//    }
 }
 

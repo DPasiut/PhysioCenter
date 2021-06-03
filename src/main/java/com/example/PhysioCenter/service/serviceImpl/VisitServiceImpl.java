@@ -2,10 +2,9 @@ package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
-import com.example.PhysioCenter.domain.dto.visit.DateOfTheVisitDto;
+import com.example.PhysioCenter.domain.dto.visit.CreateVisitDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitRoomDto;
-import com.example.PhysioCenter.domain.entity.DateOfTheVisit;
 import com.example.PhysioCenter.domain.entity.Visit;
 import com.example.PhysioCenter.domain.repository.*;
 import com.example.PhysioCenter.service.VisitService;
@@ -38,12 +37,11 @@ public class VisitServiceImpl implements VisitService {
 
     @Override
     public List<VisitDto> findAll() {
-
         return null;
     }
 
     @Override
-    public VisitDto getVisitById(String id) {
+    public VisitDto getVisitById(Long id) {
         Visit visit = visitRepository.findById(id).get();
 
         PatientDto patientDto = patientService.getPatientById(visit.getPatientId());
@@ -81,5 +79,25 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public List<VisitDto> getVisitBetweenDates(Date from, Date to) {
         return null;
+    }
+
+    @Override
+    public CreateVisitDto addVisit(CreateVisitDto createVisitDto) {
+
+        Visit createdVisit = visitRepository.save(
+                new Visit().toBuilder()
+                        .patientId(createVisitDto.getPatientId())
+                        .physioId(createVisitDto.getPhysioId())
+                        .dateId(createVisitDto.getDateId())
+                        .roomId(createVisitDto.getRoomId())
+                        .build()
+        );
+        CreateVisitDto visitDto = new CreateVisitDto().toBuilder()
+                .dateId(createdVisit.getDateId())
+                .patientId(createdVisit.getPatientId())
+                .physioId(createdVisit.getPhysioId())
+                .roomId(createdVisit.getRoomId())
+                .build();
+        return visitDto ;
     }
 }
