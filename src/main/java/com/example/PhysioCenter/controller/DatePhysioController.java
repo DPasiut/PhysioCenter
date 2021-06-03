@@ -1,6 +1,8 @@
 package com.example.PhysioCenter.controller;
 
+import com.example.PhysioCenter.domain.dto.datePhysio.AddDatePhysioDto;
 import com.example.PhysioCenter.domain.dto.datePhysio.DatePhysioDto;
+import com.example.PhysioCenter.domain.dto.visit.AddDateDto;
 import com.example.PhysioCenter.domain.dto.visit.DateOfTheVisitDto;
 import com.example.PhysioCenter.domain.entity.DatePhysio;
 import com.example.PhysioCenter.service.serviceImpl.DatePhysioServiceImpl;
@@ -9,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -62,5 +61,15 @@ public class DatePhysioController {
 
         List<DatePhysioDto> visitsDto = datePhysioService.getAllAvailableDatesPhysio();
         return new ResponseEntity<>(visitsDto, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/dates-physio/add")
+    public ResponseEntity<DatePhysioDto> addDate(@RequestBody AddDatePhysioDto datePhysioDto){
+        LOGGER.info("Adding date_physio");
+
+        DatePhysioDto dateDto = datePhysioService.addDatePhysio(datePhysioDto);
+
+        return new ResponseEntity<>(dateDto, HttpStatus.OK);
     }
 }
