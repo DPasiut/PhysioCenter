@@ -1,7 +1,6 @@
 package com.example.PhysioCenter.service;
 
 import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
-import com.example.PhysioCenter.domain.entity.Physio;
 import com.example.PhysioCenter.domain.exceptions.PhysioNotCreatedException;
 
 import java.util.List;

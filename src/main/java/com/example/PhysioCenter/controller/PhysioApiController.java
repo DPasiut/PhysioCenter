@@ -1,6 +1,5 @@
 package com.example.PhysioCenter.controller;
 
-import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
 import com.example.PhysioCenter.domain.exceptions.PhysioNotCreatedException;
 import com.example.PhysioCenter.domain.exceptions.PhysioNotFoundException;
