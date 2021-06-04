@@ -14,5 +14,5 @@ public class AvailableVisitDto {
     private String date;
     private Long physioId;
     private Long patientId;
-    private boolean isOccupied;
+    private boolean isFree;
 }

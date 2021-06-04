@@ -1,14 +1,12 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.visit.AvailableVisitDto;
+import com.example.PhysioCenter.domain.dto.visit.RegisterVisitDto;
 import com.example.PhysioCenter.service.serviceImpl.TempVisitServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +25,12 @@ public class TempVisitApiController {
 
         List<AvailableVisitDto> visitsDto = tempVisitService.getVisitsDatesByDay(physioId, date);
         return new ResponseEntity<>(visitsDto, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/visit/{physioId}")
+    public ResponseEntity<AvailableVisitDto> registerVisitByDate(@PathVariable Long physioId, @RequestBody RegisterVisitDto registerVisitDto) {
+        AvailableVisitDto availableVisitDto = tempVisitService.registerVisitByDate(physioId, registerVisitDto);
+        return new ResponseEntity<>(availableVisitDto, HttpStatus.OK);
     }
 }

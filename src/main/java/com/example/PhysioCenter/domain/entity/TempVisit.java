@@ -31,7 +31,7 @@ public class TempVisit {
     private Long patientId;
 
     @Column(name = "wolny")
-    private Boolean occupied;
+    private Boolean free;
 
     @Column(name = "data")
     private Date date;
@@ -48,7 +48,7 @@ public class TempVisit {
                 .visitId(this.visitId)
                 .physioId(this.physioId)
                 .patientId(this.patientId)
-                .occupied(this.occupied)
+                .free(this.free)
                 .date(this.date)
                 .timeFrom(this.timeFrom)
                 .timeTo(this.timeTo)
