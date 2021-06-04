@@ -1,6 +1,7 @@
 package com.example.PhysioCenter.controller;
 
 
+import com.example.PhysioCenter.domain.dto.visit.AvailableVisitDto;
 import com.example.PhysioCenter.domain.dto.visit.DateOfTheVisitDto;
 import com.example.PhysioCenter.domain.dto.visit.TempVisitDto;
 import com.example.PhysioCenter.service.serviceImpl.TempVisitServiceImpl;
@@ -27,12 +28,12 @@ public class TempVisitApiController {
 
     @CrossOrigin
     @GetMapping(value = "/visits/{physioId}/{date}")
-    public ResponseEntity<List<TempVisitDto>> getDatesByDay(
+    public ResponseEntity<List<AvailableVisitDto>> getDatesByDay(
             @PathVariable Long physioId,
             //   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate
             @PathVariable String date) {
 
-        List<TempVisitDto> visitsDto = tempVisitService.getVisitsDatesByDay(physioId, date);
+        List<AvailableVisitDto> visitsDto = tempVisitService.getVisitsDatesByDay(physioId, date);
         return new ResponseEntity<>(visitsDto, HttpStatus.OK);
     }
 }

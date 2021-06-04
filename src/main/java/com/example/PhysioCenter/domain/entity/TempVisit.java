@@ -37,10 +37,10 @@ public class TempVisit {
     private Date date;
 
     @Column(name = "czas_od")
-    private Time czas_od;
+    private String timeFrom;
 
     @Column(name = "czas_do")
-    private Time czas_do;
+    private String timeTo;
 
 
     public TempVisitDto dto(){
@@ -50,8 +50,8 @@ public class TempVisit {
                 .patientId(this.patientId)
                 .occupied(this.occupied)
                 .date(this.date)
-                .czas_od(this.czas_od)
-                .czas_do(this.czas_do)
+                .timeFrom(this.timeFrom)
+                .timeTo(this.timeTo)
                 .build();
     }
 
