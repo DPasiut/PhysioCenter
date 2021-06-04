@@ -71,8 +71,9 @@ public class TempVisitServiceImpl {
             for (TempVisit visit: freeVisits) {
                 for (AvailableVisitDto available: availableVisitsDto) {
                     if (visit.getTimeFrom().equals(available.getTimeFrom()) && visit.getTimeTo().equals(available.getTimeTo())) {
-                        available.setFree(true);
-                        available.setPhysioId(visit.getPatientId());
+                        available.setFree(false);
+                        LOGGER.info("c" + visit.getPatientId());
+                        available.setPatientId(visit.getPatientId());
                         break;
                     }
                 }
