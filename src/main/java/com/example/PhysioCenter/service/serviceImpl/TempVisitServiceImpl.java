@@ -3,10 +3,7 @@ package com.example.PhysioCenter.service.serviceImpl;
 import com.example.PhysioCenter.controller.PatientApiController;
 import com.example.PhysioCenter.domain.dto.visit.AvailableVisitDto;
 import com.example.PhysioCenter.domain.dto.visit.RegisterVisitDto;
-import com.example.PhysioCenter.domain.dto.visit.TempVisitDto;
-import com.example.PhysioCenter.domain.entity.Message;
 import com.example.PhysioCenter.domain.entity.TempVisit;
-import com.example.PhysioCenter.domain.entity.Visit;
 import com.example.PhysioCenter.domain.exceptions.VisitNotRegistered;
 import com.example.PhysioCenter.domain.repository.TempVisitRepository;
 import org.slf4j.Logger;
@@ -43,7 +40,7 @@ public class TempVisitServiceImpl {
             visit.setDate(datetime);
             visit.setTimeFrom(timeFrom);
             visit.setTimeTo(timeTo);
-            visit.setFree(false);
+            visit.setFree(true);
             allVisits.add(visit);
 
 
@@ -56,7 +53,7 @@ public class TempVisitServiceImpl {
             visit.setDate(datetime);
             visit.setTimeFrom(timeFrom2);
             visit.setTimeTo(timeTo2);
-            visit.setFree(false);
+            visit.setFree(true);
             allVisits.add(visit);
         }
 
