@@ -82,6 +82,7 @@ public class TempVisitServiceImpl {
                 for (AvailableVisitDto available: availableVisitsDto) {
                     if (visit.getTimeFrom().equals(available.getTimeFrom()) && visit.getTimeTo().equals(available.getTimeTo())) {
                         available.setOccupied(true);
+                        available.setPhysioId(visit.getPatientId());
                         break;
                     }
                 }

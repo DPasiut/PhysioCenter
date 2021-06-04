@@ -13,5 +13,6 @@ public class AvailableVisitDto {
     private String timeTo;
     private String date;
     private Long physioId;
+    private Long patientId;
     private boolean isOccupied;
 }
