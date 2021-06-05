@@ -66,13 +66,16 @@ public class TempVisitServiceImpl {
         try {
             LocalDate datetime = LocalDate.parse(date, pattern);
             List<AvailableVisitDto> availableVisitsDto = prepareListOfVisits(datetime.toString(), physioId);
-            List<TempVisit> freeVisits = tempVisitRepository.getVisitsToPhysioByDate(physioId, datetime);
+            List<TempVisit> existingVisitsInDatabase = tempVisitRepository.getVisitsToPhysioByDate(physioId, datetime);
 
-            for (TempVisit visit: freeVisits) {
+            for (TempVisit visit: existingVisitsInDatabase) {
                 for (AvailableVisitDto available: availableVisitsDto) {
-                    if (visit.getTimeFrom().equals(available.getTimeFrom()) && visit.getTimeTo().equals(available.getTimeTo())) {
+                    if (
+                            visit.getPatientId() != null
+                            && visit.getTimeFrom().equals(available.getTimeFrom())
+                            && visit.getTimeTo().equals(available.getTimeTo())
+                    ) {
                         available.setFree(false);
-                        LOGGER.info("c" + visit.getPatientId());
                         available.setPatientId(visit.getPatientId());
                         break;
                     }
@@ -92,8 +95,36 @@ public class TempVisitServiceImpl {
         Time from = Time.valueOf(registerVisitDto.getTimeFrom());
         Time to = Time.valueOf(registerVisitDto.getTimeTo());
         TempVisit tempVisit = tempVisitRepository.getVisit(physioId, localDate, from, to);
-        if (tempVisit == null || tempVisit.getFree() != false) {
+        TempVisit updatedVisit = null;
+        if (tempVisit == null) {
             tempVisitRepository.registerVisit(physioId, registerVisitDto.getPatientId(), localDate, from, to);
+            updatedVisit = tempVisitRepository.getVisit(physioId, localDate, from, to);
+        } else if (tempVisit.getFree() == true) {
+            tempVisitRepository.registerExistingVisit(physioId, registerVisitDto.getPatientId(), localDate, from, to);
+            updatedVisit = tempVisitRepository.getVisit(physioId, localDate, from, to);
+        }
+
+        if (updatedVisit != null) {
+            return new AvailableVisitDto(
+                    updatedVisit.getTimeFrom(),
+                    updatedVisit.getTimeTo(),
+                    registerVisitDto.getDate(),
+                    updatedVisit.getPhysioId(),
+                    registerVisitDto.getPatientId(),
+                    updatedVisit.getFree()
+            );
+        }
+
+        throw new VisitNotRegistered(physioId);
+    }
+
+    public AvailableVisitDto cancelVisit(Long physioId, RegisterVisitDto registerVisitDto) {
+        LocalDate localDate = LocalDate.parse(registerVisitDto.getDate());
+        Time from = Time.valueOf(registerVisitDto.getTimeFrom());
+        Time to = Time.valueOf(registerVisitDto.getTimeTo());
+        TempVisit tempVisit = tempVisitRepository.getVisit(physioId, localDate, from, to);
+        if (tempVisit != null) {
+            tempVisitRepository.cancelVisit(physioId, localDate, from, to);
             tempVisit = tempVisitRepository.getVisit(physioId, localDate, from, to);
             if (tempVisit != null) {
                 return new AvailableVisitDto(

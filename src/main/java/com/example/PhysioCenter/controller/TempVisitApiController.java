@@ -33,4 +33,11 @@ public class TempVisitApiController {
         AvailableVisitDto availableVisitDto = tempVisitService.registerVisitByDate(physioId, registerVisitDto);
         return new ResponseEntity<>(availableVisitDto, HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @PostMapping(value = "/visit/{physioId}/cancel")
+    public ResponseEntity<AvailableVisitDto> cancelVisit(@PathVariable Long physioId, @RequestBody RegisterVisitDto registerVisitDto) {
+        AvailableVisitDto availableVisitDto = tempVisitService.cancelVisit(physioId, registerVisitDto);
+        return new ResponseEntity<>(availableVisitDto, HttpStatus.OK);
+    }
 }
