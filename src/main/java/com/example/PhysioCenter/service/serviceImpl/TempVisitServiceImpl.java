@@ -147,7 +147,7 @@ public class TempVisitServiceImpl {
                         tempVisit.getTimeTo(),
                         registerVisitDto.getDate(),
                         tempVisit.getPhysioId(),
-                        registerVisitDto.getPatientId(),
+                        tempVisit.getPatientId(),
                         tempVisit.getFree()
                 );
             }
