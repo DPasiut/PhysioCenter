@@ -1,4 +1,4 @@
-package com.example.PhysioCenter.domain.dto.diagnosis;
+package com.example.PhysioCenter.domain.dto.exercise;
 
 import lombok.*;
 
@@ -10,6 +10,8 @@ import lombok.*;
 @ToString
 
 
-public class ExercisesListDto {
+public class ExerciseDto {
     Long exerciseId;
+    String exerciseName;
+    String exerciseDescription;
 }

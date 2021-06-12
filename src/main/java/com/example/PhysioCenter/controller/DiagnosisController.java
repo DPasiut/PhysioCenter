@@ -1,6 +1,7 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
+import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitDto;
 import com.example.PhysioCenter.domain.entity.Diagnosis;
 import com.example.PhysioCenter.service.serviceImpl.DiagnosisServiceImpl;
@@ -37,10 +38,10 @@ public class DiagnosisController {
 
     @CrossOrigin
     @GetMapping(value = "/diagnosis/exercises/{id}")
-    public ResponseEntity<List<Long>> getExercisesIdsByDiagnosisId(@PathVariable Long id){
+    public ResponseEntity<List<ExerciseDto>> getExercisesIdsByDiagnosisId(@PathVariable Long id){
         LOGGER.info("get exercises ids by diagnosis id");
 
-        List<Long> exercisesIds = diagnosisService.getAllExercisesByDiagnosisId(id);
+        List<ExerciseDto> exercisesIds = diagnosisService.getAllExercisesByDiagnosisId(id);
         return new ResponseEntity<>(exercisesIds, HttpStatus.OK);
     }
 }

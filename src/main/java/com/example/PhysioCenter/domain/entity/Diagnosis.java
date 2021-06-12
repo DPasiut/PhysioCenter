@@ -1,7 +1,6 @@
 package com.example.PhysioCenter.domain.entity;
 
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
-import com.example.PhysioCenter.domain.dto.diagnosis.ExercisesListDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

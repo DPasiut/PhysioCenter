@@ -1,10 +1,13 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
+import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 import com.example.PhysioCenter.domain.entity.Diagnosis;
 import com.example.PhysioCenter.domain.entity.DiagnosisExercises;
+import com.example.PhysioCenter.domain.entity.Exercise;
 import com.example.PhysioCenter.domain.repository.DiagnosisExercisesRepository;
 import com.example.PhysioCenter.domain.repository.DiagnosisRepository;
+import com.example.PhysioCenter.domain.repository.ExerciseRepository;
 import com.example.PhysioCenter.service.DiagnosisService;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,12 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     private final DiagnosisRepository diagnosisRepository;
     private final DiagnosisExercisesRepository diagnosisExercisesRepository;
+    private final ExerciseRepository exerciseRepository;
 
-    public DiagnosisServiceImpl(DiagnosisRepository diagnosisRepository, DiagnosisExercisesRepository diagnosisExercisesRepository) {
+    public DiagnosisServiceImpl(DiagnosisRepository diagnosisRepository, DiagnosisExercisesRepository diagnosisExercisesRepository, ExerciseRepository exerciseRepository) {
         this.diagnosisRepository = diagnosisRepository;
         this.diagnosisExercisesRepository = diagnosisExercisesRepository;
+        this.exerciseRepository = exerciseRepository;
     }
 
     @Override
@@ -34,10 +39,11 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     @Override
-    public List<Long> getAllExercisesByDiagnosisId(Long id) {
+    public List<ExerciseDto> getAllExercisesByDiagnosisId(Long id) {
         List<Long> exercisesIds = new ArrayList<>();
 
-        List<DiagnosisExercises> diagnosisExercise = StreamSupport.stream(diagnosisExercisesRepository
+        List<DiagnosisExercises> diagnosisExercise =
+                StreamSupport.stream(diagnosisExercisesRepository
                 .findAll().spliterator(), false)
                 .filter(diagnosis -> diagnosis.getDiagnosisId().equals(id))
                 .collect(Collectors.toList());
@@ -46,7 +52,12 @@ public class DiagnosisServiceImpl implements DiagnosisService {
             exercisesIds.add(exercise.getExerciseId());
         }
 
-        return exercisesIds;
+        return StreamSupport.stream(exerciseRepository
+                .findAll().spliterator(), false)
+                .filter(exercise -> exercisesIds.stream()
+                        .anyMatch(aLong -> aLong.equals(exercise.getExerciseId())))
+                .map(Exercise::dto)
+                .collect(Collectors.toList());
     }
 
 }
