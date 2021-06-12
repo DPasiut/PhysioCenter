@@ -28,11 +28,15 @@ public class Exercise {
     @Column(name = "opis")
     private String exerciseDescription;
 
+    @Column(name = "link")
+    private String videoUrl;
+
     public ExerciseDto dto(){
         return ExerciseDto.builder()
                 .exerciseId(this.exerciseId)
                 .exerciseName(this.exerciseName)
                 .exerciseDescription(this.exerciseDescription)
+                .videoUrl(this.videoUrl)
                 .build();
     }
 }

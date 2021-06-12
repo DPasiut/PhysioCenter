@@ -14,4 +14,5 @@ public class ExerciseDto {
     Long exerciseId;
     String exerciseName;
     String exerciseDescription;
+    String videoUrl;
 }
