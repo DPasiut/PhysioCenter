@@ -4,8 +4,6 @@ import com.example.PhysioCenter.domain.dto.patient.PatientDto;
 import com.example.PhysioCenter.domain.exceptions.PatientNotFoundException;
 import com.example.PhysioCenter.domain.entity.Patient;
 import com.example.PhysioCenter.domain.repository.PatientRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PhysioCenter.service.PatientService;
 import org.springframework.stereotype.Service;
@@ -19,8 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 @Service
 public class PatientServiceImpl implements PatientService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(PatientServiceImpl.class);
 
     private final PatientRepository patientRepository;
 
@@ -72,11 +68,17 @@ public class PatientServiceImpl implements PatientService {
 
     }
 
-    private Optional<Patient> findPatientById(Long id) {
+    @Override
+    public Optional<Patient> findPatientById(Long id){
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent()) {
             return patient;
         }
         throw new PatientNotFoundException(id);
+    }
+
+    @Override
+    public Patient addPatient(Patient patient) {
+        return patientRepository.save(patient);
     }
 }

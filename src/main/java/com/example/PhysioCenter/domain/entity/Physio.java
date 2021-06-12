@@ -1,6 +1,6 @@
 package com.example.PhysioCenter.domain.entity;
 
-import com.example.PhysioCenter.domain.dto.patient.PatientDto;
+import com.example.PhysioCenter.domain.dto.physioteraphist.PhysioDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,18 +9,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(schema = "fizjoterapia", name = "pacjent")
+@Table(schema = "fizjoterapia", name = "fizjoterapeuta")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
 
-public class Patient {
-
+public class Physio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pacjenta")
-    private Long patientId;
+
+    @Column(name = "id_fizjoterapeuty")
+    private Long physioId;
 
     @Column(name = "imie")
     private String name;
@@ -34,18 +34,17 @@ public class Patient {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "pesel")
-    private String peselNo;
+    @Column(name = "nr_uprawnien")
+    private String licenceNo;
 
-    public PatientDto dto() {
-        return PatientDto.builder()
-                .patientId(this.patientId)
+    public PhysioDto dto() {
+        return PhysioDto.builder()
+                .physioId(this.physioId)
                 .name(this.name)
                 .surname(this.surname)
                 .phoneNumber(this.phoneNumber.trim())
                 .email(this.email)
-                .peselNo(this.peselNo)
+                .licenceNo(this.licenceNo)
                 .build();
     }
-
 }

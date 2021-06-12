@@ -1,4 +1,4 @@
-package com.example.PhysioCenter.domain.dto.patient;
+package com.example.PhysioCenter.domain.dto.users;
 
 import lombok.*;
 
@@ -8,8 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class PatientDto {
-    private Long patientId;
+public class CreatePatientUserDto {
+    private String login;
+    private String password;
     private String name;
     private String surname;
     private String phoneNumber;
