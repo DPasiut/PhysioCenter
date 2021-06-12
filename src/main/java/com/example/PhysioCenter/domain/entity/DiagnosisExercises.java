@@ -1,12 +1,12 @@
 package com.example.PhysioCenter.domain.entity;
 
+import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisExercisesDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(schema = "fizjoterapia", name = "diagnoza_cwiczenia")
@@ -28,4 +28,10 @@ public class DiagnosisExercises {
     @Column(name = "id_cwiczenia")
     private Long exerciseId;
 
+    public AddDiagnosisExercisesDto dto(){
+        return AddDiagnosisExercisesDto.builder()
+                .diagnosisId(this.diagnosisId)
+                .ExerciseId(this.exerciseId)
+                .build();
+    }
 }

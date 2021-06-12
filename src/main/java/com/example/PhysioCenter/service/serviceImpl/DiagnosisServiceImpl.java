@@ -2,6 +2,7 @@ package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.controller.PatientApiController;
 import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisDto;
+import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisExercisesDto;
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
 import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 import com.example.PhysioCenter.domain.entity.Diagnosis;
@@ -88,4 +89,23 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
         return diag.dto();
     }
+
+    @Override
+    public AddDiagnosisExercisesDto addDiagnosisExercises(AddDiagnosisExercisesDto addDiagnosisExercisesDto) {
+
+        DiagnosisExercises diagnosisExercises = DiagnosisExercises.builder()
+                .diagnosisId(addDiagnosisExercisesDto.getDiagnosisId())
+                .exerciseId(addDiagnosisExercisesDto.getExerciseId())
+                .build();
+
+        try {
+            diagnosisExercisesRepository.save(diagnosisExercises);
+        }catch (Exception e){
+            LOGGER.info("Something went wrong while saving new diagnosis_exercises");
+        }
+
+        return diagnosisExercises.dto();
+    }
+
+
 }
