@@ -2,6 +2,7 @@ package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.controller.PatientApiController;
 import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisDto;
+import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisExercisesDto;
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
 import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 import com.example.PhysioCenter.domain.entity.Diagnosis;
@@ -13,6 +14,7 @@ import com.example.PhysioCenter.domain.repository.ExerciseRepository;
 import com.example.PhysioCenter.service.DiagnosisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,8 +41,9 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public List<DiagnosisDto> getAllByPatientId(Long id) {
+
         return StreamSupport.stream(diagnosisRepository
-                .findAll().spliterator(), false)
+                .findAll(Sort.by(Sort.Direction.DESC, "diagnosisDate")).spliterator(), false)
                 .filter(diagnosis -> diagnosis.getPatientId().equals(id))
                 .map(Diagnosis::dto)
                 .collect(Collectors.toList());
@@ -86,6 +89,25 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
         return diag.dto();
     }
+
+    @Override
+    public AddDiagnosisExercisesDto addDiagnosisExercises(AddDiagnosisExercisesDto addDiagnosisExercisesDto) {
+
+        DiagnosisExercises diagnosisExercises = DiagnosisExercises.builder()
+                .diagnosisId(addDiagnosisExercisesDto.getDiagnosisId())
+                .exerciseId(addDiagnosisExercisesDto.getExerciseId())
+                .build();
+
+        try {
+            diagnosisExercisesRepository.save(diagnosisExercises);
+        }catch (Exception e){
+            LOGGER.info("Something went wrong while saving new diagnosis_exercises");
+        }
+
+        return diagnosisExercises.dto();
+    }
+
+
 
     @Override
     public List<ExerciseDto> getAllExercises() {

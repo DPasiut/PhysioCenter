@@ -1,6 +1,7 @@
 package com.example.PhysioCenter.service;
 
 import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisDto;
+import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisExercisesDto;
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
 import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 
@@ -10,5 +11,6 @@ public interface DiagnosisService {
     List<DiagnosisDto> getAllByPatientId(Long id);
     DiagnosisDto addDiagnosis(AddDiagnosisDto addDiagnosisDto);
     List<ExerciseDto> getAllExercisesByDiagnosisId(Long id);
+    AddDiagnosisExercisesDto addDiagnosisExercises(AddDiagnosisExercisesDto addDiagnosisExercisesDto);
     List<ExerciseDto> getAllExercises();
 }

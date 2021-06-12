@@ -1,6 +1,7 @@
 package com.example.PhysioCenter.controller;
 
 import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisDto;
+import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisExercisesDto;
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
 import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitDto;
@@ -60,5 +61,15 @@ public class DiagnosisController {
         DiagnosisDto diagnosisDto = diagnosisService.addDiagnosis(addDiagnosisDto);
 
         return new ResponseEntity<>(diagnosisDto, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/diagnosis-exercises/add")
+    public ResponseEntity<AddDiagnosisExercisesDto> addDiagnosis(@RequestBody AddDiagnosisExercisesDto addDiagnosisExercisesDto){
+        LOGGER.info("Add new diagnosis-exercise");
+
+        AddDiagnosisExercisesDto diagnosisExercisesDto = diagnosisService.addDiagnosisExercises(addDiagnosisExercisesDto);
+
+        return new ResponseEntity<>(diagnosisExercisesDto, HttpStatus.OK);
     }
 }
