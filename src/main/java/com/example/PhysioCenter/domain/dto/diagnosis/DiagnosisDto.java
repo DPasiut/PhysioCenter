@@ -13,7 +13,8 @@ import java.util.Date;
 
 public class DiagnosisDto {
     Long diagnosisId;
-    Date diagnosisDate;
+    String diagnosisDate;
+    String diagnosisHour;
     Long patientId;
     Long physioId;
     String diagnosis;

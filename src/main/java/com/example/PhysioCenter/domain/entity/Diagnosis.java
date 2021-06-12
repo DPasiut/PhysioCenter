@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,8 +26,7 @@ public class Diagnosis {
     private Long diagnosisId;
 
     @Column(name = "data_diagnozy")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date diagnosisDate;
+    private LocalDateTime diagnosisDate;
 
     @Column(name = "id_pacjenta")
     private Long patientId;
@@ -40,7 +41,8 @@ public class Diagnosis {
         return DiagnosisDto.builder()
                 .diagnosisId(this.diagnosisId)
                 .diagnosis(this.diagnosis)
-                .diagnosisDate(this.diagnosisDate)
+                .diagnosisDate(this.diagnosisDate.toLocalDate().toString())
+                .diagnosisHour(this.diagnosisDate.toLocalTime().toString())
                 .patientId(this.patientId)
                 .physioId(this.physioId)
                 .build();
