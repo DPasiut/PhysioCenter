@@ -1,5 +1,6 @@
 package com.example.PhysioCenter.controller;
 
+import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisDto;
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
 import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 import com.example.PhysioCenter.domain.dto.visit.VisitDto;
@@ -8,10 +9,7 @@ import com.example.PhysioCenter.service.serviceImpl.DiagnosisServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,5 +41,15 @@ public class DiagnosisController {
 
         List<ExerciseDto> exercisesIds = diagnosisService.getAllExercisesByDiagnosisId(id);
         return new ResponseEntity<>(exercisesIds, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/diagnosis/add")
+    public ResponseEntity<DiagnosisDto> addDiagnosis(@RequestBody AddDiagnosisDto addDiagnosisDto){
+        LOGGER.info("Add new diagnosis");
+
+        DiagnosisDto diagnosisDto = diagnosisService.addDiagnosis(addDiagnosisDto);
+
+        return new ResponseEntity<>(diagnosisDto, HttpStatus.OK);
     }
 }

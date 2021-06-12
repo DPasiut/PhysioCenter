@@ -1,5 +1,7 @@
 package com.example.PhysioCenter.service.serviceImpl;
 
+import com.example.PhysioCenter.controller.PatientApiController;
+import com.example.PhysioCenter.domain.dto.diagnosis.AddDiagnosisDto;
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
 import com.example.PhysioCenter.domain.dto.exercise.ExerciseDto;
 import com.example.PhysioCenter.domain.entity.Diagnosis;
@@ -9,8 +11,11 @@ import com.example.PhysioCenter.domain.repository.DiagnosisExercisesRepository;
 import com.example.PhysioCenter.domain.repository.DiagnosisRepository;
 import com.example.PhysioCenter.domain.repository.ExerciseRepository;
 import com.example.PhysioCenter.service.DiagnosisService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +23,9 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class DiagnosisServiceImpl implements DiagnosisService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiagnosisServiceImpl.class);
+
 
     private final DiagnosisRepository diagnosisRepository;
     private final DiagnosisExercisesRepository diagnosisExercisesRepository;
@@ -60,4 +68,22 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public DiagnosisDto addDiagnosis(AddDiagnosisDto addDiagnosisDto) {
+
+        Diagnosis diag = Diagnosis.builder()
+                .diagnosis(addDiagnosisDto.getDiagnosis())
+                .patientId(addDiagnosisDto.getPatientId())
+                .physioId(addDiagnosisDto.getPhysioId())
+                .diagnosisDate(LocalDateTime.now())
+                .build();
+
+        try {
+            diagnosisRepository.save(diag);
+        }catch (Exception e){
+            LOGGER.info("Something went wrong while save new Diagnosis");
+        }
+
+        return diag.dto();
+    }
 }
