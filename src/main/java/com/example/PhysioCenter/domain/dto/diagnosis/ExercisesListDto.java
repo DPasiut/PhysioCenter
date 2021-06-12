@@ -9,11 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 
-public class DiagnosisDto {
-    Long diagnosisId;
-    String diagnosisDate;
-    String diagnosisHour;
-    Long patientId;
-    Long physioId;
-    String diagnosis;
+
+public class ExercisesListDto {
+    Long exerciseId;
 }

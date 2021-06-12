@@ -1,15 +1,14 @@
 package com.example.PhysioCenter.domain.entity;
 
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
+import com.example.PhysioCenter.domain.dto.diagnosis.ExercisesListDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(schema = "fizjoterapia", name = "diagnoza")
@@ -47,4 +46,5 @@ public class Diagnosis {
                 .physioId(this.physioId)
                 .build();
     }
+
 }

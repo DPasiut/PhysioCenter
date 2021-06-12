@@ -2,11 +2,13 @@ package com.example.PhysioCenter.service.serviceImpl;
 
 import com.example.PhysioCenter.domain.dto.diagnosis.DiagnosisDto;
 import com.example.PhysioCenter.domain.entity.Diagnosis;
+import com.example.PhysioCenter.domain.entity.DiagnosisExercises;
+import com.example.PhysioCenter.domain.repository.DiagnosisExercisesRepository;
 import com.example.PhysioCenter.domain.repository.DiagnosisRepository;
 import com.example.PhysioCenter.service.DiagnosisService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -15,9 +17,11 @@ import java.util.stream.StreamSupport;
 public class DiagnosisServiceImpl implements DiagnosisService {
 
     private final DiagnosisRepository diagnosisRepository;
+    private final DiagnosisExercisesRepository diagnosisExercisesRepository;
 
-    public DiagnosisServiceImpl(DiagnosisRepository diagnosisRepository) {
+    public DiagnosisServiceImpl(DiagnosisRepository diagnosisRepository, DiagnosisExercisesRepository diagnosisExercisesRepository) {
         this.diagnosisRepository = diagnosisRepository;
+        this.diagnosisExercisesRepository = diagnosisExercisesRepository;
     }
 
     @Override
@@ -30,12 +34,19 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     @Override
-    public DiagnosisDto addDiagnosis(Long patientId, Long physioId, String diagnosis) {
-        Diagnosis diag = new Diagnosis();
+    public List<Long> getAllExercisesByDiagnosisId(Long id) {
+        List<Long> exercisesIds = new ArrayList<>();
 
-        LocalDate date = LocalDate.now();
+        List<DiagnosisExercises> diagnosisExercise = StreamSupport.stream(diagnosisExercisesRepository
+                .findAll().spliterator(), false)
+                .filter(diagnosis -> diagnosis.getDiagnosisId().equals(id))
+                .collect(Collectors.toList());
 
+        for (DiagnosisExercises exercise: diagnosisExercise){
+            exercisesIds.add(exercise.getExerciseId());
+        }
 
-        return null;
+        return exercisesIds;
     }
+
 }

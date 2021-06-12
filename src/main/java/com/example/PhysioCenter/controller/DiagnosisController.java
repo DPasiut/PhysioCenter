@@ -34,4 +34,13 @@ public class DiagnosisController {
         List<DiagnosisDto> diagnosisDto = diagnosisService.getAllByPatientId(id);
         return new ResponseEntity<>(diagnosisDto, HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @GetMapping(value = "/diagnosis/exercises/{id}")
+    public ResponseEntity<List<Long>> getExercisesIdsByDiagnosisId(@PathVariable Long id){
+        LOGGER.info("get exercises ids by diagnosis id");
+
+        List<Long> exercisesIds = diagnosisService.getAllExercisesByDiagnosisId(id);
+        return new ResponseEntity<>(exercisesIds, HttpStatus.OK);
+    }
 }
