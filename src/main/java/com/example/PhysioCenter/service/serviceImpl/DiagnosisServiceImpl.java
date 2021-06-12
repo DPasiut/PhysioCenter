@@ -13,6 +13,7 @@ import com.example.PhysioCenter.domain.repository.ExerciseRepository;
 import com.example.PhysioCenter.service.DiagnosisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,8 +40,9 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public List<DiagnosisDto> getAllByPatientId(Long id) {
+
         return StreamSupport.stream(diagnosisRepository
-                .findAll().spliterator(), false)
+                .findAll(Sort.by(Sort.Direction.DESC, "diagnosisDate")).spliterator(), false)
                 .filter(diagnosis -> diagnosis.getPatientId().equals(id))
                 .map(Diagnosis::dto)
                 .collect(Collectors.toList());
