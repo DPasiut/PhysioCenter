@@ -10,4 +10,5 @@ public interface DiagnosisService {
     List<DiagnosisDto> getAllByPatientId(Long id);
     DiagnosisDto addDiagnosis(AddDiagnosisDto addDiagnosisDto);
     List<ExerciseDto> getAllExercisesByDiagnosisId(Long id);
+    List<ExerciseDto> getAllExercises();
 }

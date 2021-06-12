@@ -86,4 +86,12 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
         return diag.dto();
     }
+
+    @Override
+    public List<ExerciseDto> getAllExercises() {
+        return StreamSupport.stream(exerciseRepository
+                .findAll().spliterator(), false)
+                .map(Exercise::dto)
+                .collect(Collectors.toList());
+    }
 }

@@ -44,6 +44,15 @@ public class DiagnosisController {
     }
 
     @CrossOrigin
+    @GetMapping(value = "/diagnosis/exercises")
+    public ResponseEntity<List<ExerciseDto>> getAllExercises(){
+        LOGGER.info("get available exercises");
+
+        List<ExerciseDto> exercises = diagnosisService.getAllExercises();
+        return new ResponseEntity<>(exercises, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PostMapping(value = "/diagnosis/add")
     public ResponseEntity<DiagnosisDto> addDiagnosis(@RequestBody AddDiagnosisDto addDiagnosisDto){
         LOGGER.info("Add new diagnosis");
