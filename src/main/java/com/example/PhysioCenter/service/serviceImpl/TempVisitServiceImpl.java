@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,12 +20,14 @@ import java.util.List;
 
 @Service
 public class TempVisitServiceImpl {
-    private TempVisitRepository tempVisitRepository;
+    private final TempVisitRepository tempVisitRepository;
+    private final SMTPService smtpService;
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientApiController.class);
 
 
-    public TempVisitServiceImpl(TempVisitRepository tempVisitRepository) {
+    public TempVisitServiceImpl(TempVisitRepository tempVisitRepository, SMTPService smtpService) {
         this.tempVisitRepository = tempVisitRepository;
+        this.smtpService = smtpService;
     }
 
     private List<AvailableVisitDto> prepareListOfVisits(String datetime, Long physioId) {
@@ -105,6 +108,12 @@ public class TempVisitServiceImpl {
         }
 
         if (updatedVisit != null) {
+            try {
+                smtpService.sendEmailAboutRegisterVisit(localDate.toString(), from.toString(), to.toString());
+            } catch (Exception e) {
+                LOGGER.warn(e.getMessage());
+            }
+
             return new AvailableVisitDto(
                     updatedVisit.getTimeFrom(),
                     updatedVisit.getTimeTo(),
@@ -127,12 +136,18 @@ public class TempVisitServiceImpl {
             tempVisitRepository.cancelVisit(physioId, localDate, from, to);
             tempVisit = tempVisitRepository.getVisit(physioId, localDate, from, to);
             if (tempVisit != null) {
+                try {
+                    smtpService.sendEmailAboutCancelVisit(localDate.toString(), from.toString(), to.toString());
+                } catch (Exception e) {
+                    LOGGER.warn(e.getMessage());
+                }
+
                 return new AvailableVisitDto(
                         tempVisit.getTimeFrom(),
                         tempVisit.getTimeTo(),
                         registerVisitDto.getDate(),
                         tempVisit.getPhysioId(),
-                        registerVisitDto.getPatientId(),
+                        tempVisit.getPatientId(),
                         tempVisit.getFree()
                 );
             }
