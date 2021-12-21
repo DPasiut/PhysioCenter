@@ -12,8 +12,8 @@ import javax.mail.internet.MimeMessage;
 public class SMTPService {
     @Autowired
     private JavaMailSender mailSender;
-    private final String TEST_EMAIL_FROM = "marcin.radwan08@gmail.com";
-    private final String TEST_EMAIL_TO = "marcin.radwan08@gmail.com";
+    private final String TEST_EMAIL_FROM = "";
+    private final String TEST_EMAIL_TO = "";
     private final boolean SEND_MESSAGE = false;
 
     private void sendEmail(String subject, String HTMLtext) throws MessagingException {
